@@ -23,6 +23,7 @@ You can follow the same topics as your backend project. It is also possible to s
     * Microsoft.EntityFrameworkCore.Design
     * Npgsql.EntityFrameworkCore.PostgreSQL
     You can add more packages when necessary.
+3. You can change .NET Core version to be compatible with your local machine
 
 ## Requirements
 
