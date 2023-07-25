@@ -21,7 +21,7 @@ You can follow the same topics as your backend project or choose the alternative
    - [Mandatory features](#mandatory-features)
    - [Extra features](#extra-features)
 2. [Requirements](#requirements)
-3. [Getting Started]()
+3. [Getting Started](#getting-started)
 4. [Testing](#testing)
 
 ## Features
