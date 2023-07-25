@@ -8,30 +8,82 @@
 ![EF Core](https://img.shields.io/badge/EF%20Core-v.7-cyan)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.14-drakblue)
 
-* Frontend: SASS, TypeScript, React, Redux Toolkit
-* Backend: ASP .NET Core, Entity Framework Core, PostgreSQL
+This project involves creating a Fullstack project with React and Redux on the frontend and ASP.NET Core 7 on the backend. The goal is to provide a seamless experience for users, along with robust management system for administrators.
 
-You can follow the same topics as your backend project. It is also possible to select a different topic
+- Frontend: SASS, TypeScript, React, Redux Toolkit
+- Backend: ASP .NET Core, Entity Framework Core, PostgreSQL
 
-## Setting Up for folder `Backend`
+You can follow the same topics as your backend project or choose the alternative one, between E-commerce and Library. You can reuse the previous frontend project, with necessary modification, or make a new layout to fit your backend server.
 
-1. Create `appsettings.json` (and `appsettings.*.json` if needed) file in the root of folder `Backend`. You can refer to the content of file `example.json`
-2. Install all the needed packages:
-    * AutoMapper
-    * AutoMapper.Extensions.Microsoft.DependencyInjection
-    * Microsoft.EntityFrameworkCore
-    * Microsoft.EntityFrameworkCore.Design
-    * Npgsql.EntityFrameworkCore.PostgreSQL
-    \
-   *You can add more packages when necessary.*
-3. You can change .NET Core version to be compatible with your local machine
+## Table of Contents
+
+1. [Features](#features)
+   - [Mandatory features](#mandatory-features)
+   - [Extra features](#extra-features)
+2. [Requirements](#requirements)
+3. [Getting Started]()
+4. [Testing](#testing)
+
+## Features
+
+### Mandatory features
+
+#### User Functionalities
+
+1. User Management: Users should be able to register for an account and log in. Users cannot register themselves as admin. Users should be able to view and edit only certain properties in their accounts.
+2. Browse Products: Users should be able to view all available products, search and sort products.
+3. Product Details: Clicking on a product should reveal more details about it.
+4. Add to Cart: Users should be able to add products to a shopping cart, and manage cart.
+5. Checkout: Users should be able to place order.
+
+#### Admin Functionalities
+
+1. User Management: Admins should be able to view and delete users.
+2. Product Management: Admins should be able to view, edit, delete and add new products.
+
+### Extra features
+
+#### User Functionalities
+
+1. Users should be able to view their order history, track the status of their orders, and potentially cancel orders within a certain timeframe.
+
+#### Admin Functionalities
+
+1. User Management: Admins should be able to edit users' role and create new users.
+2. Order Management: Admins should be able to view all orders, update order status, view order details, handle returns/refunds, and cancel orders.
 
 ## Requirements
 
-Below are the steps that you need to finish in order to finish this module
+1. Apply CLEAN architecture in your backend. In README file, explain the architecture of your project as well.
+2. Implement Error Handling Middleware: This will ensure any exceptions thrown in your application are handled appropriately and helpful error messages are returned.
+3. Document with Swagger: Make sure to annotate your API endpoints and generate a Swagger UI for easier testing and documentation.
+4. Project should have proper file structure, naming convention, and comply with Rest API.
+5. `README` file should sufficiently describe the project, as well as the deployment.
+
+## Getting Started
 
 1. Your full stack project should have one git repo to manage both frontend and backend. The shared .git in the root directory is used to push commits to the remote repo. In case you need to deploy frontend and backend to different server, you can inittiate another `.git` folder in each repository. Syntax: `cd frontend` -> `git init` (similar to backend folder). Remember to add `.gitignore` for each folder when you intiate `git` repo.
-2. `frontend` folder is for the react frontend. Start with `backend` first before moving on to `frontend`.
-3. `backend` should have proper file structure, naming convention, and comply with Rest API.
-4. Each topic would have different features. However, the main routes should have CRUD operations, authentication and authorization.
-5. You need to deploy the fullstack project, rewrite `README.md` as instructed earlier in the course.
+2. `frontend` folder is for the react frontend. Start with `backend` first before moving to `frontend`.
+3. In the `backend`, here is the recommended order:
+
+   - Plan Your Database Schema before start coding
+
+   - Set Up the Project Structure
+
+   - Build the models
+
+   - Create the Repositories
+
+   - Build the Services
+
+   - Set Up Authentication & Authorization
+
+   - Build the Controllers
+
+   - Implement Error Handling Middleware
+
+Testing should be done along the development circle, early and regularly.
+
+## Testing
+
+Unit testing, and optionally integration testing, must be included for both frontend and backend code. Aim for high test coverage and ensure all major functionalities are covered.

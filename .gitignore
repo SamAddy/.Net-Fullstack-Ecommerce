@@ -3,8 +3,8 @@
 # User-specific files
 backend/appsettings.json
 backend/appsettings.*.json
-backend/obj
-backend/bin
+backend/obj/
+backend/bin/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
