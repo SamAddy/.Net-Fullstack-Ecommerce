@@ -30,27 +30,31 @@ You can follow the same topics as your backend project or choose the alternative
 
 #### User Functionalities
 
-1. User Management: Users should be able to register for an account and log in. Users cannot register themselves as admin. Users should be able to view and edit only certain properties in their accounts.
-2. Browse Products: Users should be able to view all available products, search and sort products.
-3. Product Details: Clicking on a product should reveal more details about it.
-4. Add to Cart: Users should be able to add products to a shopping cart, and manage cart.
+1. User Management: Users should be able to register for an account and log in. Users cannot register themselves as admin.
+2. Browse Products: Users should be able to view all available products and single product, search and sort products.
+3. Add to Cart: Users should be able to add products to a shopping cart, and manage cart.
 5. Checkout: Users should be able to place order.
 
 #### Admin Functionalities
 
 1. User Management: Admins should be able to view and delete users.
 2. Product Management: Admins should be able to view, edit, delete and add new products.
+3. Order Management: Admins should be able to view all orders
 
 ### Extra features
 
 #### User Functionalities
 
-1. Users should be able to view their order history, track the status of their orders, and potentially cancel orders within a certain timeframe.
+1. User Management: Users should be able to view and edit only certain properties in their accounts. They also can unregister their own accounts.
+2. Authentication and account registration with Google Oauth.
+3. Order Management: Users should be able to view their order history, track the status of their orders, and potentially cancel orders within a certain timeframe.
 
 #### Admin Functionalities
 
 1. User Management: Admins should be able to edit users' role and create new users.
-2. Order Management: Admins should be able to view all orders, update order status, view order details, handle returns/refunds, and cancel orders.
+2. Order Management: Admins should be able to update order status, view order details, handle returns/refunds, and cancel orders.
+
+And any other extra features that you want to implement ...
 
 ## Requirements
 
