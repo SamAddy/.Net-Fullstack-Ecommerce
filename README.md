@@ -33,7 +33,7 @@ You can follow the same topics as your backend project or choose the alternative
 1. User Management: Users should be able to register for an account and log in. Users cannot register themselves as admin.
 2. Browse Products: Users should be able to view all available products and single product, search and sort products.
 3. Add to Cart: Users should be able to add products to a shopping cart, and manage cart.
-5. Checkout: Users should be able to place order.
+4. Checkout: Users should be able to place order.
 
 #### Admin Functionalities
 
@@ -85,6 +85,8 @@ And any other extra features that you want to implement ...
    - Build the Controllers
 
    - Implement Error Handling Middleware
+
+4. You should focus on the mandatory features first. Make sure you have minimal working project before opting fore advanced functionalities.
 
 Testing should be done along the development circle, early and regularly.
 
