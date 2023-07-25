@@ -86,7 +86,7 @@ And any other extra features that you want to implement ...
 
    - Implement Error Handling Middleware
 
-4. You should focus on the mandatory features first. Make sure you have minimal working project before opting fore advanced functionalities.
+4. You should focus on the mandatory features first. Make sure you have minimal working project before opting for advanced functionalities.
 
 Testing should be done along the development circle, early and regularly.
 
