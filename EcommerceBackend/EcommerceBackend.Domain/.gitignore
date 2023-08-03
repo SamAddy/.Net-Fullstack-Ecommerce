@@ -1,0 +1,6 @@
+# Visual Studio Code
+.vscode
+
+# .NEt
+bin
+obj

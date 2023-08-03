@@ -1,0 +1,12 @@
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\bin\Debug\net7.0\EcommerceBackend.Application.deps.json
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\bin\Debug\net7.0\EcommerceBackend.Application.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\bin\Debug\net7.0\EcommerceBackend.Application.pdb
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.csproj.AssemblyReference.cache
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.AssemblyInfoInputs.cache
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.AssemblyInfo.cs
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.csproj.CoreCompileInputs.cache
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\refint\EcommerceBackend.Application.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\EcommerceBackend.Application.pdb
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Application\obj\Debug\net7.0\ref\EcommerceBackend.Application.dll

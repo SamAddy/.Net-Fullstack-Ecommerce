@@ -1,3 +1,4 @@
 {
-    "FSharp.suggestGitignore": false
+    "FSharp.suggestGitignore": false,
+    "dotnet.defaultSolution": "EcommerceBackend/EcommerceBackend.sln"
 }

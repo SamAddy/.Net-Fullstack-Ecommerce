@@ -1,0 +1,15 @@
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.csproj.AssemblyReference.cache
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.GeneratedMSBuildEditorConfig.editorconfig
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.AssemblyInfoInputs.cache
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.AssemblyInfo.cs
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.csproj.CoreCompileInputs.cache
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\bin\Debug\net7.0\EcommerceBackend.Business.deps.json
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\bin\Debug\net7.0\EcommerceBackend.Business.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\bin\Debug\net7.0\EcommerceBackend.Business.pdb
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\bin\Debug\net7.0\EcommerceBackend.Domain.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\bin\Debug\net7.0\EcommerceBackend.Domain.pdb
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.csproj.CopyComplete
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\refint\EcommerceBackend.Business.dll
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\EcommerceBackend.Business.pdb
+D:\Integrify-Academy\Backend\fs15_Fullstack\EcommerceBackend\EcommerceBackend.Business\obj\Debug\net7.0\ref\EcommerceBackend.Business.dll
