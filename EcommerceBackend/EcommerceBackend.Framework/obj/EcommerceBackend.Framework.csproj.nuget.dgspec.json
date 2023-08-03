@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj": {}
+    "d:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj": {}
   },
   "projects": {
     "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Domain\\EcommerceBackend.Domain.csproj": {
@@ -73,14 +73,14 @@
         }
       }
     },
-    "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj": {
+    "d:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj",
+        "projectUniqueName": "d:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj",
         "projectName": "EcommerceBackend.Framework",
-        "projectPath": "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj",
+        "projectPath": "d:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj",
         "packagesPath": "C:\\Users\\addis\\.nuget\\packages\\",
-        "outputPath": "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\obj\\",
+        "outputPath": "d:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\addis\\AppData\\Roaming\\NuGet\\NuGet.Config"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qG1UCU0cV+hKMLQic9XccVRut/s8vlzPRAqNhhy5cAM5LbeYdCHxLLd1mCd/pHHybDur4pGG0ioyWkDOQxq4VA==",
+  "dgSpecHash": "sej9yANvSGMRkr5/vOPdQ2isKqM7beo3JhINFFYQCnwc5G71RncabPhT0Y5dfetgc1LJx8PWtxFPdjKCk4OHpA==",
   "success": true,
-  "projectFilePath": "D:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj",
+  "projectFilePath": "d:\\Integrify-Academy\\Backend\\fs15_Fullstack\\EcommerceBackend\\EcommerceBackend.Framework\\EcommerceBackend.Framework.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\addis\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.5\\microsoft.aspnetcore.openapi.7.0.5.nupkg.sha512",
     "C:\\Users\\addis\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.9\\microsoft.entityframeworkcore.7.0.9.nupkg.sha512",
