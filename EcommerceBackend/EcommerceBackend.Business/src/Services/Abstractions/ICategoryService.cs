@@ -1,5 +1,5 @@
-using EcommerceBackend.Business.src.Common;
 using EcommerceBackend.Business.src.Dtos.Category;
+using EcommerceBackend.Domain.src.Common;
 
 namespace EcommerceBackend.Business.src.Services.Abstractions
 {

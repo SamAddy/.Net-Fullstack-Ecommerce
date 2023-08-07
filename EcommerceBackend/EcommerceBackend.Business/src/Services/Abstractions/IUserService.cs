@@ -1,5 +1,5 @@
-using EcommerceBackend.Business.src.Common;
 using EcommerceBackend.Business.src.Dtos.User;
+using EcommerceBackend.Domain.src.Common;
 
 namespace EcommerceBackend.Business.src.Services.Abstractions
 {
@@ -10,6 +10,6 @@ namespace EcommerceBackend.Business.src.Services.Abstractions
         Task<ReadUserDto> GetUserByIdAsync(Guid userId);
         Task<ReadUserDto> GetUserByEmailAsync(string email);
         Task<ReadUserDto> UpdateUserAsync(Guid userId, UpdateUserDto userDto);
-        Task<bool> DeleteUserAsync(Guid userId); 
+        Task<bool> DeleteUserByIdAsync(Guid userId); 
     }
 }
