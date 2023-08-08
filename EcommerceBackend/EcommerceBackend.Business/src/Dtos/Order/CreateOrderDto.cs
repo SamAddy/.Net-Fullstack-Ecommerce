@@ -1,4 +1,4 @@
-using EcommerceBackend.Business.src.Dtos.User;
+using EcommerceBackend.Business.src.Dtos.UserDtos;
 
 namespace EcommerceBackend.Business.src.Dtos.Order
 {

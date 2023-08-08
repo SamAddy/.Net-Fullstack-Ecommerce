@@ -4,6 +4,6 @@ namespace EcommerceBackend.Domain.src.Abstractions
 {
     public interface ICategoryRepository :  IBaseRepository<Category>
     {
-        
+        Task<Category> GetCategoryByNameAsync (string categoryName);
     }
 }

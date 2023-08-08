@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-namespace EcommerceBackend.Business.src.Middlewares
+
+namespace EcommerceBackend.Framework.src.Middlewares
 {
     public class ErrorHandlerMiddleware : IMiddleware
     {
@@ -13,6 +13,10 @@ namespace EcommerceBackend.Business.src.Middlewares
             }
             catch (Exception ex)
             {
+                if (ex.InnerException != null)
+                {
+                    await HandleExceptionAsync(context, ex.InnerException);
+                }
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -25,7 +29,7 @@ namespace EcommerceBackend.Business.src.Middlewares
             var errorResponse = new{
                 Message = "An error occurred while processing your request.",
                 ExceptionMessage = exception.Message,
-                ExceptionType = exception.GetType().FullName
+                ExceptionType = exception.GetType().FullName,
             };
 
             var jsonErrorREsponse = JsonSerializer.Serialize(errorResponse);

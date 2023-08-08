@@ -1,4 +1,4 @@
-using EcommerceBackend.Business.src.Dtos.User;
+using EcommerceBackend.Business.src.Dtos.UserDtos;
 using EcommerceBackend.Domain.src.Common;
 
 namespace EcommerceBackend.Business.src.Services.Abstractions

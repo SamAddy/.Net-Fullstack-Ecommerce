@@ -1,17 +1,13 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-namespace EcommerceBackend.Business.src.Middlewares
+namespace EcommerceBackend.Framework.src.Middlewares
 {
-    public class LoggingMiddleware : IMiddleware
+    public class LoggingMiddleWare : IMiddleware
     {
-        private readonly ILogger<LoggingMiddleware> _logger;
+        private readonly ILogger<LoggingMiddleWare> _logger;
 
-        public LoggingMiddleware(ILogger<LoggingMiddleware> logger)
+        public LoggingMiddleWare(ILogger<LoggingMiddleWare> logger)
         {
-            _logger = logger;
+                _logger = logger;
         }
-
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             // Console.WriteLine($"Incoming request: {context.Request.Path} {context.User.Identities} {context.Request.QueryString} ");

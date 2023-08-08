@@ -1,4 +1,4 @@
-namespace EcommerceBackend.Business.src.Dtos.User
+namespace EcommerceBackend.Business.src.Dtos.UserDtos
 {
     public class ReadUserDto
     {

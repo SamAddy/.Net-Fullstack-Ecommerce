@@ -1,8 +1,8 @@
-namespace EcommerceBackend.Business.src.Dtos.Category
+namespace EcommerceBackend.Business.src.Dtos.CategoryDtos
 {
     public class UpdateCategoryDto
     {
         public required string Name { get; set; }
-        public required string Description { get; set; }
+        public required string Image { get; set; }
     }
 }
