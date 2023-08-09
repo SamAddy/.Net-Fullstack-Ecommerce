@@ -4,9 +4,7 @@ namespace EcommerceBackend.Business.src.Dtos.Order
 {
     public class OrderItemDto
     {
-        public required ReadOrderDto Order { get; set; }
-        public required ReadProductDto Product { get; set; }
+        public Guid ProductId { get; set; }
         public int Quantity { get; set; }
-        public Decimal SubTotal { get; set; }
     }
 }

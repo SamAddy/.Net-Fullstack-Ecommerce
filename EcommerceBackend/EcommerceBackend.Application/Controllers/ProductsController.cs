@@ -45,6 +45,13 @@ namespace EcommerceBackend.Application.Controllers
             return Ok(newProduct);
         }
 
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<ReadProductDto>> UpdateProduct(Guid id, [FromBody] UpdateProductDto productDto)
+        {
+            var product = await _productService.UpdateProductAsync(id, productDto);
+            return Ok(product);
+        }
+
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult<bool>> DeleteProductById(Guid id)
         {

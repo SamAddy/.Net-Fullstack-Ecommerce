@@ -36,8 +36,16 @@ namespace EcommerceBackend.Framework.src
             CreateMap<ReadCategoryDto, Category>();
 
             CreateMap<Order, CreateOrderDto>();
+            CreateMap<CreateOrderDto, Order>();
             // CreateMap<Order, UpdateOrderDto>();
             CreateMap<Order, ReadOrderDto>();
+            CreateMap<ReadOrderDto, Order>();
+
+            CreateMap<OrderItem, OrderItemDto>();
+            CreateMap<OrderItemDto, OrderItem>();
+            
+            CreateMap<OrderItemDto, Order>();
+            CreateMap<Order, OrderItemDto>();
 
         }
     }

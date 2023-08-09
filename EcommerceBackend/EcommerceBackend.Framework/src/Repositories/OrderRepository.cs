@@ -15,5 +15,11 @@ namespace EcommerceBackend.Framework.src.Repositories
             _applicationDbContext = applicationDbContext;
             _orders = _applicationDbContext.Set<Order>();
         }
+
+        public async Task<IEnumerable<Order>> GetOrdersForUserAsync(Guid userId)
+        {
+            var orders = await _orders.Where(o => o.UserId == userId).ToListAsync();
+            return orders;
+        }
     }
 }

@@ -67,8 +67,7 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
         public async Task<bool> DeleteCategoryAsync(Guid categoryId)
         {
-            Console.WriteLine("Category id received in service layer");
-            var exisitingCategory = await _categoryRepository.GetByIdAsync(categoryId) ?? throw new ArgumentException($"No Category with this ID {categoryId} was found.");
+            var exisitingCategory = await _categoryRepository.GetByIdAsync(categoryId);
             return await _categoryRepository.DeleteByIdAsync(exisitingCategory.Id);
         }
 
@@ -81,14 +80,15 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
         public async Task<ReadCategoryDto> GetCategoryByIdAsync(Guid categoryId)
         {
-            var category = await _categoryRepository.GetByIdAsync(categoryId) ?? throw new ArgumentException($"No Category with this ID {categoryId} was found.");
+            var category = await _categoryRepository.GetByIdAsync(categoryId) 
+                ?? throw new ArgumentException($"Category with ID {categoryId} not found.");
             var readCategoryDto = _mapper.Map<ReadCategoryDto>(category);
             return readCategoryDto;
         }
 
         public async Task<ReadCategoryDto> UpdateCategoryAsync(Guid categoryId, UpdateCategoryDto categoryDto)
         {   
-            var existingCategory = await _categoryRepository.GetByIdAsync(categoryId) ?? throw new ArgumentException("No Category with this ID {categoryId} was found.");
+            var existingCategory = await _categoryRepository.GetByIdAsync(categoryId) ?? throw new ArgumentException("Category with ID {categoryId} not found.");
 
             var existingCategoryDto = _mapper.Map<UpdateCategoryDto>(existingCategory);
             var categoryDtoProperties = typeof(UpdateCategoryDto).GetProperties();

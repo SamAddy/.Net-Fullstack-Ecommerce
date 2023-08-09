@@ -5,8 +5,9 @@ namespace EcommerceBackend.Domain.src.Entities
         public required string Name { get; set; }
         public required string Description { get; set; }
         public Decimal Price { get; set; }
-        public required Category Category { get; set; }
-        public virtual Inventory Inventory { get; set; }
-        public virtual List<string> Images { get; set; }
+        public Guid CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+        public int Inventory { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

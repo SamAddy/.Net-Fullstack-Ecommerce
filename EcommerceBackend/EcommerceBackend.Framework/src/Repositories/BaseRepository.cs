@@ -90,7 +90,7 @@ namespace EcommerceBackend.Framework.src.Repositories
         public async Task<TEntity> GetByIdAsync(Guid entityId)
         {
            var entity = await _dbSet.FindAsync(entityId);
-           return entity ?? throw new ApplicationException($"Entity with Id {entityId} was not found.");
+           return entity;
         }
 
         public async Task<TEntity> UpdateAsync(Guid entityId, TEntity updatedEntity)
