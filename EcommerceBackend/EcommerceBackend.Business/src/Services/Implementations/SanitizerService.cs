@@ -21,7 +21,7 @@ namespace EcommerceBackend.Business.src.Services.Implementations
             var properties = typeof(T).GetProperties();
             foreach (var property in properties)
             {
-                if(property.PropertyType == typeof(string) && property.Name.ToLower() != "password")
+                if(property.PropertyType == typeof(string) && property.Name.ToLower() != "password" && property.Name.ToLower() != "imageurl")
                 {
                     var value = property.GetValue(inputDto) as string;
                     if (value != null)
