@@ -71,5 +71,24 @@ namespace EcommerceBackend.Application.Controllers
             }
             return true;
         }
+
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<ReadUserDto>> UpdateUser(Guid id, [FromBody]UpdateUserDto userDto)
+        {
+            var user = await _userService.UpdateUserAsync(id, userDto);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            var readUserDto = _mapper.Map<ReadUserDto>(user);
+            return Ok(readUserDto);
+        }
+
+        [HttpPost("Admin/")]
+        public async Task<ActionResult<ReadUserDto>> CreateAdmin([FromBody]CreateUserDto userDto)
+        {
+            var admin = await _userService.CreateAdminAsync(userDto);
+            return Ok(admin);
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace EcommerceBackend.Business.src.Services.Abstractions
     {
         Task<IEnumerable<ReadUserDto>> GetAllUsersAsync(QueryOptions queryOptions);
         Task<ReadUserDto> CreateUserAsync(CreateUserDto userDto);
+        Task<ReadUserDto> CreateAdminAsync(CreateUserDto userDto);
         Task<ReadUserDto> GetUserByIdAsync(Guid userId);
         Task<ReadUserDto> GetUserByEmailAsync(string email);
         Task<ReadUserDto> UpdateUserAsync(Guid userId, UpdateUserDto userDto);

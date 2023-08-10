@@ -75,6 +75,60 @@ namespace EcommerceBackend.Business.src.Services.Implementations
             }
         }
 
+        public async Task<ReadUserDto> CreateAdminAsync(CreateUserDto userDto)
+        {
+            try
+            {
+                var sanitizedDto = _sanitizerService.SanitizeDto(userDto);
+
+                var existingUser = await _userRepository.GetUserByEmailAsync(sanitizedDto.Email);
+
+                var userDtoProperties = typeof(CreateUserDto).GetProperties();
+                foreach (var property in userDtoProperties)
+                {
+                    var dtoValue = property.GetValue(userDto);
+                    if (dtoValue is null or (object)"")
+                    {
+                        throw new ArgumentException($"{property.Name} is required.");
+                    }
+                }
+
+                bool IsValidEmail = Validator.IsValidEmail(sanitizedDto.Email);
+
+                if (!IsValidEmail)
+                {
+                    throw new ArgumentException("Invalid Email address.");
+                }
+
+                if (existingUser is not null)
+                {
+                    throw new ArgumentException("A user with this email already exist.");
+                }
+
+                var userEntity = _mapper.Map<User>(sanitizedDto);
+
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(sanitizedDto.Password);
+                userEntity.Password = Encoding.UTF8.GetBytes(hashedPassword);
+                userEntity = await _userRepository.CreateAdminAsync(userEntity);
+                
+                var hashedPasswordString = Encoding.UTF8.GetString(userEntity.Password);
+                userDto.Password = hashedPasswordString;
+
+                var readUserDto = _mapper.Map<ReadUserDto>(userEntity);
+                return readUserDto;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Mapping error: " + ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner exception: " + ex.InnerException.Message);
+                }
+                throw;
+            }
+        }
+
         public async Task<bool> DeleteUserByIdAsync(Guid userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -108,42 +162,48 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
         public async Task<ReadUserDto> UpdateUserAsync(Guid userId, UpdateUserDto updateUserDto)
         {
-            var existingUser = await _userRepository.GetByIdAsync(userId);
-            if (existingUser == null)
+            try
             {
-                throw new ArgumentException($"No user with this ID {userId} was found.");
-            }
-            var existingUserDto = _mapper.Map<UpdateUserDto>(existingUser);
-
-            // var hashedPasswordString = Encoding.UTF8.GetString(existingUser.Password);
-            // existingUserDto.Password = hashedPasswordString;
-
-            var userDtoProperties = typeof(UpdateUserDto).GetProperties();
-            foreach(var property in userDtoProperties)
-            {
-                var dtoValue = property.GetValue(updateUserDto);
-                if (dtoValue != null)
+                var existingUser = await _userRepository.GetByIdAsync(userId);
+                if (existingUser == null)
                 {
-                    var userProperty = existingUser.GetType().GetProperty(property.Name);
-                    userProperty.SetValue(existingUserDto, dtoValue);
+                    throw new ArgumentException($"User with ID {userId} not found.");
                 }
+
+                var userDtoProperties = typeof(UpdateUserDto).GetProperties();
+                foreach (var property in userDtoProperties)
+                {
+                    var dtoValue = property.GetValue(updateUserDto);
+                    if (dtoValue != null)
+                    {
+                        if (property.Name.ToLower() == "password" && !string.IsNullOrEmpty(updateUserDto.Password))
+                        {
+                            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
+                            existingUser.Password = Encoding.UTF8.GetBytes(hashedPassword);
+                        }
+                        else
+                        {
+                            var userProperty = existingUser.GetType().GetProperty(property.Name);
+                            userProperty.SetValue(existingUser, dtoValue);
+                        }
+                    }
+                }
+
+                existingUser = await _userRepository.UpdateAsync(userId, existingUser);
+
+                var readUserDto = _mapper.Map<ReadUserDto>(existingUser);
+                return readUserDto;
             }
-
-            _mapper.Map(existingUserDto, existingUser);
-
-            if (!string.IsNullOrEmpty(updateUserDto.Password))
+            catch (Exception ex)
             {
-                // var hashedPassword = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
-                // existingUser.Password = Encoding.UTF8.GetBytes(hashedPassword);
+                Console.WriteLine("Error: " + ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner exception: " + ex.InnerException.Message);
+                }
+                throw;
             }
-
-            existingUser = await _userRepository.UpdateAsync(userId, existingUser);
-
-            // var hashedPasswordString2 = Encoding.UTF8.GetString(existingUser.Password);
-            // updateUserDto.Password = hashedPasswordString2;
-
-            var readUserDto = _mapper.Map<ReadUserDto>(existingUser);
-            return readUserDto;
         }
     }
 }
