@@ -7,6 +7,6 @@ namespace EcommerceBackend.Domain.src.Entities
         public Guid ProductId { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
-        public Decimal SubTotal { get; set; }
+        public decimal SubTotal { get; set; }
     }
 }

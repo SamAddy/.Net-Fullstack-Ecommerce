@@ -17,17 +17,10 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ReadOrderDto>> GetAllOrders([FromQuery] QueryOptions queryOptions)
+        public async Task<ActionResult<ReadOrderDto>> GetAllOrders()
         {
-            var orders = await _ordersService.GetAllOrdersAsync(queryOptions);
+            var orders = await _ordersService.GetOrdersWithDetailsdAsync();
             return Ok(orders);
-        }
-
-        [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<ReadOrderDto>> GetOrderById(Guid Id)
-        {
-            var order = await _ordersService.GetOrderByIdAsync(Id);
-            return Ok(order);
         }
 
         [HttpPost("Users/{userId:Guid}/Orders")]
@@ -35,6 +28,26 @@ namespace EcommerceBackend.Application.Controllers
         {
             var newOrder = await _ordersService.CreateOrderAsync(userId, orderDto);
             return Ok(newOrder);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<ReadOrderDto>> GetOrderById(Guid id)
+        {
+            var order = await _ordersService.GetOrderByIdAsync(id);
+            return Ok(order);
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult<bool>> DeleteOrder(Guid id)
+        {
+            return Ok(await _ordersService.DeleteOrderByIdAsync(id));
+        }
+
+        [HttpGet("ByUser/{userId:Guid}")]
+        public async Task<ActionResult<IEnumerable<ReadOrderDto>>> GetOrdersByUserIdAsync(Guid userId)
+        {
+            var userOrders = await _ordersService.GetOrdersByUserIdAsync(userId);
+            return Ok(userOrders);
         }
     }
 }

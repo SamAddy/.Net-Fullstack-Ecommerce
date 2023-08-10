@@ -7,7 +7,7 @@ namespace EcommerceBackend.Business.src.Dtos.Order
         public Guid Id { get; set; }
         public ReadUserDto User { get; set; }
         public DateTime OrderDate { get; set; }
-        public List<OrderItemDto> OrderItems { get; set; }
+        public List<ReadOrderItemDto> OrderItems { get; set; }
         public decimal TotalAmount { get; set; }
     }
 }
