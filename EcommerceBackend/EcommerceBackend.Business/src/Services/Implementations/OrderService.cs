@@ -159,8 +159,6 @@ namespace EcommerceBackend.Business.src.Services.Implementations
             }
 
             var userOrders = await _orderRepository.GetOrdersForUserAsync(user.Id);
-
-            // var readUserOrdersDto = _mapper.Map<IEnumerable<ReadOrderDto>>(userOrders);
             var readUserOrdersDto = new List<ReadOrderDto>();
 
             foreach (var order in userOrders)

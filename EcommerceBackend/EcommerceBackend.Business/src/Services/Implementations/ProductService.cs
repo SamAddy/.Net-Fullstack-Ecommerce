@@ -47,10 +47,15 @@ namespace EcommerceBackend.Business.src.Services.Implementations
                     }
                 }
 
+                var category = await _categoryRepository.GetByIdAsync(sanitizedDto.CategoryId);
+                if (category == null)
+                {
+                    throw new ArgumentException($"Category with ID {sanitizedDto.CategoryId} not found.");
+                }
                 var newProduct = _mapper.Map<Product>(sanitizedDto);
                 newProduct = await _productRepository.AddAsync(newProduct);
 
-                var category = await _categoryRepository.GetByIdAsync(newProduct.CategoryId);
+                // var category = await _categoryRepository.GetByIdAsync(newProduct.CategoryId);
                 var readProductDto = _mapper.Map<ReadProductDto>(newProduct);
                 readProductDto.Category = _mapper.Map<ReadCategoryDto>(category);
                 return readProductDto;
@@ -70,7 +75,7 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
         public async Task<bool> DeleteProductByIdAsync(Guid productId)
         {
-            var product = await _productRepository.GetByIdAsync(productId) ?? throw new ArgumentException($"No product with this ID {productId} was found.");
+            var product = await _productRepository.GetByIdAsync(productId);
             return await _productRepository.DeleteByIdAsync(product.Id);
         }
 
@@ -92,7 +97,8 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
         public async Task<ReadProductDto> GetProductByIdAsync(Guid productId)
         {
-            var product = await _productRepository.GetByIdAsync(productId) ?? throw new ArgumentException($"No product with this ID {productId} was found.");
+            var product = await _productRepository.GetByIdAsync(productId) 
+                ?? throw new ArgumentException($"Product with ID {productId} not found.");
             var category = await _categoryRepository.GetByIdAsync(product.CategoryId);
             var readProductDto = _mapper.Map<ReadProductDto>(product);
             readProductDto.Category = _mapper.Map<ReadCategoryDto>(category);

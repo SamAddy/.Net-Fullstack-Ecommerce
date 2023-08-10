@@ -67,5 +67,24 @@ namespace EcommerceBackend.Framework.src.Database
                     .HasForeignKey(orderItem => orderItem.ProductId);
             });
         }
+
+        public override int SaveChanges()
+        {
+            var currentTime = DateTime.UtcNow;
+
+            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = currentTime;
+                    entry.Entity.UpdatedAt = currentTime;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = currentTime;
+                }
+            }
+            return base.SaveChanges();
+        }
     }
 }

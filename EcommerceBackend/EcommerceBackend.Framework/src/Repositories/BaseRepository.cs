@@ -16,7 +16,6 @@ namespace EcommerceBackend.Framework.src.Repositories
         {
             _applicationDbContext = applicationDbContext;
             _dbSet = _applicationDbContext.Set<TEntity>();
-            // _logger = logger;
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
@@ -27,7 +26,7 @@ namespace EcommerceBackend.Framework.src.Repositories
                 {
                     if (userEntity.Role != UserRole.Admin)
                     {
-                        userEntity.Role = UserRole.User;
+                        userEntity.Role = UserRole.Customer;
                     }
                 }
                 var entry = await _dbSet.AddAsync(entity);

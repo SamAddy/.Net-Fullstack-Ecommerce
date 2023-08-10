@@ -17,9 +17,12 @@ namespace EcommerceBackend.Framework.src.Repositories
             _users = _applicationDbContext.Set<User>();
         }
 
-        public Task<User> CreateAdminAsync(User user)
+        public async Task<User> CreateAdminAsync(User user)
         {
-            throw new NotImplementedException();
+            user.Role = UserRole.Admin;
+            var entry = await _users.AddAsync(user);
+            await _applicationDbContext.SaveChangesAsync();
+            return entry.Entity;
         }
 
         public async Task<User> GetUserByEmailAsync(string email)

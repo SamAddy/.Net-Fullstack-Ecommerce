@@ -16,10 +16,28 @@ namespace EcommerceBackend.Framework.src.Repositories
             _orders = _applicationDbContext.Set<Order>();
         }
 
+        public async Task<Order> GetByIdWithOtherDetailsAsync(Guid orderId)
+        {
+            return await _orders
+                            .Include(order => order.OrderItems)
+                            .ThenInclude(orderItem => orderItem.Product)
+                            .FirstOrDefaultAsync(order => order.Id == orderId);
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersForUserAsync(Guid userId)
         {
-            var orders = await _orders.Where(o => o.UserId == userId).ToListAsync();
-            return orders;
+            return await _orders
+                            .Where(o => o.UserId == userId)
+                            .Include(order => order.OrderItems)
+                            .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Order>> GetAllOrdersWithDetailsAsync()
+        {
+            return await _orders
+                            .Include(order => order.OrderItems)
+                            .ThenInclude(orderItem => orderItem.Product)
+                            .ToListAsync();
         }
     }
 }

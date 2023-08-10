@@ -2,6 +2,7 @@ using EcommerceBackend.Business.src.Dtos.Product;
 using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Domain.src.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace EcommerceBackend.Application.Controllers
 {
@@ -35,6 +36,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ReadProductDto>> CreatProduct([FromBody] CreateProductDto product)
         {
             if (!ModelState.IsValid)
