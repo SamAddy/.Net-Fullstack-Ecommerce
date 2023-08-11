@@ -1,6 +1,6 @@
 namespace EcommerceBackend.Domain.src.Entities
 {
-    public class OrderItem 
+    public class OrderItem : TimeStamp
     {
         public Guid OrderId { get; set; }
         public virtual Order Order { get; set; }

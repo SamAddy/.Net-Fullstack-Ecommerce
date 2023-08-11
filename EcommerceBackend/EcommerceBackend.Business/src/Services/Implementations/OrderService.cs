@@ -36,9 +36,9 @@ namespace EcommerceBackend.Business.src.Services.Implementations
             {
                 throw new ArgumentNullException(nameof(createOrderDto));
             }
-            if (createOrderDto.Items.Count !> 0)
+            if (user == null)
             {
-                throw new ArgumentException("Order items cannot be null.");
+                throw new ArgumentException($"User with ID {userId} not found.");
             }
             var newOrder = _mapper.Map<Order>(createOrderDto);
             newOrder.UserId = userId;

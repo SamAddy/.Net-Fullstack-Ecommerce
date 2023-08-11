@@ -11,21 +11,31 @@ namespace EcommerceBackend.Framework.src.Database
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders{ get; set; }
-        // public DbSet<Inventory> Inventory { get; set; }
 
         public ApplicationDbContext(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
+        static ApplicationDbContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+        }
     
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
+            builder.MapEnum<UserRole>();
+            builder.MapEnum<OrderStatus>();
+            optionsBuilder.AddInterceptors(new TimeStampInterceptor());
             optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
         }   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresEnum<UserRole>();
+            modelBuilder.HasPostgresEnum<OrderStatus>();
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(u => u.Id);
@@ -66,25 +76,6 @@ namespace EcommerceBackend.Framework.src.Database
                     .WithMany()
                     .HasForeignKey(orderItem => orderItem.ProductId);
             });
-        }
-
-        public override int SaveChanges()
-        {
-            var currentTime = DateTime.UtcNow;
-
-            foreach (var entry in ChangeTracker.Entries<BaseEntity>())
-            {
-                if (entry.State == EntityState.Added)
-                {
-                    entry.Entity.CreatedAt = currentTime;
-                    entry.Entity.UpdatedAt = currentTime;
-                }
-                else if (entry.State == EntityState.Modified)
-                {
-                    entry.Entity.UpdatedAt = currentTime;
-                }
-            }
-            return base.SaveChanges();
         }
     }
 }

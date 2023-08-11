@@ -25,7 +25,7 @@ namespace EcommerceBackend.Framework.src.Repositories
             return entry.Entity;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
         }
