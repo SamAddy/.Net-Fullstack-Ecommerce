@@ -12,8 +12,8 @@ namespace EcommerceBackend.Framework.src
         public AutoMapperProfile()
         {
             CreateMap<User, CreateUserDto>();
-            CreateMap<CreateUserDto, User>()
-                 .ForMember(dest => dest.Password, opt => opt.Ignore());
+            CreateMap<CreateUserDto, User>();
+                //  .ForMember(dest => dest.Password, opt => opt.Ignore());
 
             CreateMap<User, ReadUserDto>();
             CreateMap<ReadUserDto, User>();

@@ -43,7 +43,7 @@ namespace EcommerceBackend.Framework.src.Database
                 entity.Property(u => u.FirstName).IsRequired();
                 entity.Property(u => u.LastName).IsRequired();
                 entity.Property(u => u.Email).IsRequired();
-                entity.Property(u => u.Password).IsRequired();
+                entity.Property(u => u.PasswordHash).IsRequired();
             });
 
             modelBuilder.Entity<Product>(entity => 

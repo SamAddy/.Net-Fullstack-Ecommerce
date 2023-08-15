@@ -1,12 +1,14 @@
+using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using EcommerceBackend.Business.src.Dtos.UserDtos;
 using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Domain.src.Common;
-using EcommerceBackend.Domain.src.Entities;
 using Microsoft.AspNetCore.Mvc;
+using EcommerceBackend.Domain.src.Entities;
 
 namespace EcommerceBackend.Application.Controllers
 {
+    
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UsersController : ControllerBase
@@ -21,6 +23,7 @@ namespace EcommerceBackend.Application.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<ReadUserDto>>> GetAllUsers([FromQuery] QueryOptions queryOptions)
         {
             var users = await _userService.GetAllUsersAsync(queryOptions);
@@ -87,8 +90,8 @@ namespace EcommerceBackend.Application.Controllers
         [HttpPost("Admin/")]
         public async Task<ActionResult<ReadUserDto>> CreateAdmin([FromBody]CreateUserDto userDto)
         {
-            var admin = await _userService.CreateAdminAsync(userDto);
-            return Ok(admin);
+            var adminUser = await _userService.CreateAdminAsync(userDto);
+            return Ok(adminUser);
         }
     }
 }

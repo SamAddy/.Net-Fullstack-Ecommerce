@@ -1,7 +1,7 @@
-using System.Text;
 using AutoMapper;
 using EcommerceBackend.Business.src.Dtos.UserDtos;
 using EcommerceBackend.Business.src.Services.Abstractions;
+using EcommerceBackend.Business.src.Services.Common;
 using EcommerceBackend.Domain.src.Abstractions;
 using EcommerceBackend.Domain.src.Common;
 using EcommerceBackend.Domain.src.Entities;
@@ -53,13 +53,12 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
                 var userEntity = _mapper.Map<User>(sanitizedDto);
 
-                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(sanitizedDto.Password);
-                userEntity.Password = Encoding.UTF8.GetBytes(hashedPassword);
+                var hashedPassword = PasswordService.HashPassword(sanitizedDto.Password);
+                userEntity.PasswordHash = hashedPassword;
                 userEntity = await _userRepository.AddAsync(userEntity);
                 
-                var hashedPasswordString = Encoding.UTF8.GetString(userEntity.Password);
-                userDto.Password = hashedPasswordString;
-
+                // var hashedPasswordString = Encoding.UTF8.GetString(userEntity.Password);
+                // userDto.Password = hashedPasswordString;
                 var readUserDto = _mapper.Map<ReadUserDto>(userEntity);
                 return readUserDto;
             }
@@ -107,12 +106,10 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
                 var userEntity = _mapper.Map<User>(sanitizedDto);
 
-                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(sanitizedDto.Password);
-                userEntity.Password = Encoding.UTF8.GetBytes(hashedPassword);
+                var hashedPassword = PasswordService.HashPassword(sanitizedDto.Password);
+                userEntity.PasswordHash = hashedPassword;
+
                 userEntity = await _userRepository.CreateAdminAsync(userEntity);
-                
-                var hashedPasswordString = Encoding.UTF8.GetString(userEntity.Password);
-                userDto.Password = hashedPasswordString;
 
                 var readUserDto = _mapper.Map<ReadUserDto>(userEntity);
                 return readUserDto;
@@ -179,7 +176,7 @@ namespace EcommerceBackend.Business.src.Services.Implementations
                         if (property.Name.ToLower() == "password" && !string.IsNullOrEmpty(updateUserDto.Password))
                         {
                             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
-                            existingUser.Password = Encoding.UTF8.GetBytes(hashedPassword);
+                            // existingUser.Password = Encoding.UTF8.GetBytes(hashedPassword);
                         }
                         else
                         {
