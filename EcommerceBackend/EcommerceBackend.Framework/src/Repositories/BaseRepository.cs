@@ -62,6 +62,8 @@ namespace EcommerceBackend.Framework.src.Repositories
             if (!string.IsNullOrEmpty(queryOptions.SearchKeyword))
             {
                 var searchableProperties = new[] { "Name", "Description" };
+                var entityProperties = typeof(TEntity).GetProperties();
+
 
                 var validProperties = searchableProperties
                     .Where(property => typeof(TEntity).GetProperty(property) != null)
@@ -82,14 +84,13 @@ namespace EcommerceBackend.Framework.src.Repositories
             query = query.Skip((queryOptions.PageNumber - 1) * queryOptions.PageSize)
                 .Take(queryOptions.PageSize);
 
-            var entities = await query.ToListAsync();
+            var entities = await query.AsNoTracking().ToListAsync();
             return entities;
         }
 
         public async Task<TEntity> GetByIdAsync(Guid entityId)
         {
-           var entity = await _dbSet.FindAsync(entityId);
-           return entity;
+           return await _dbSet.FindAsync(entityId);
         }
 
         public async Task<TEntity> UpdateAsync(Guid entityId, TEntity updatedEntity)

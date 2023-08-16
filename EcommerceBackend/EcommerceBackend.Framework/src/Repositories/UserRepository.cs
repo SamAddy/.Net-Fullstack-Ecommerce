@@ -27,7 +27,19 @@ namespace EcommerceBackend.Framework.src.Repositories
 
         public async Task<User?> GetUserByEmailAsync(string email)
         {
-            return await _users.FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            return await _users.AsNoTracking().FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+        }
+
+        public async Task<User> UpdatePassword(string email, string PasswordHash)
+        {
+            var user = await GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return null;
+            }
+            user.PasswordHash = PasswordHash;
+            await _applicationDbContext.SaveChangesAsync();
+            return user;
         }
     }
 }
