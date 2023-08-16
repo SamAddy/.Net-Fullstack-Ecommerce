@@ -57,8 +57,6 @@ namespace EcommerceBackend.Business.src.Services.Implementations
                 userEntity.PasswordHash = hashedPassword;
                 userEntity = await _userRepository.AddAsync(userEntity);
                 
-                // var hashedPasswordString = Encoding.UTF8.GetString(userEntity.Password);
-                // userDto.Password = hashedPasswordString;
                 var readUserDto = _mapper.Map<ReadUserDto>(userEntity);
                 return readUserDto;
             }
@@ -117,7 +115,6 @@ namespace EcommerceBackend.Business.src.Services.Implementations
             catch (Exception ex)
             {
                 Console.WriteLine("Mapping error: " + ex.Message);
-
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine("Inner exception: " + ex.InnerException.Message);
@@ -173,21 +170,11 @@ namespace EcommerceBackend.Business.src.Services.Implementations
                     var dtoValue = property.GetValue(updateUserDto);
                     if (dtoValue != null)
                     {
-                        if (property.Name.ToLower() == "password" && !string.IsNullOrEmpty(updateUserDto.Password))
-                        {
-                            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
-                            // existingUser.Password = Encoding.UTF8.GetBytes(hashedPassword);
-                        }
-                        else
-                        {
-                            var userProperty = existingUser.GetType().GetProperty(property.Name);
-                            userProperty.SetValue(existingUser, dtoValue);
-                        }
+                        var userProperty = existingUser.GetType().GetProperty(property.Name);
+                        userProperty.SetValue(existingUser, dtoValue);
                     }
                 }
-
                 existingUser = await _userRepository.UpdateAsync(userId, existingUser);
-
                 var readUserDto = _mapper.Map<ReadUserDto>(existingUser);
                 return readUserDto;
             }
