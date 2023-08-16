@@ -16,9 +16,23 @@ namespace EcommerceBackend.Framework.src.Repositories
             _categories = _applicationDbContext.Set<Category>();
         }
 
+        public async Task<IEnumerable<Product>> GetAllProductsInCategoryAsync(Guid id)
+        {
+            var category = await _categories
+                    .Include(c => c.Products)
+                    .FirstOrDefaultAsync(c => c.Id == id);
+            if (category == null)
+            {
+                return null;
+            }
+            return category.Products;
+        }
+
         public async Task<Category> GetCategoryByNameAsync(string categoryName)
         {
-            return await _categories.FirstOrDefaultAsync(c => c.Name.ToLower() == categoryName.ToLower());
+            return await _categories
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(c => c.Name.ToLower() == categoryName.ToLower());
         }
     }
 }

@@ -14,6 +14,5 @@ namespace EcommerceBackend.Framework.src.Repositories
             _applicationDbContext = applicationDbContext;
             _products = _applicationDbContext.Set<Product>();
         }
-        
     }
 }

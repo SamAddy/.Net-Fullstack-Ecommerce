@@ -1,5 +1,6 @@
 using AutoMapper;
 using EcommerceBackend.Business.src.Dtos.CategoryDtos;
+using EcommerceBackend.Business.src.Dtos.Product;
 using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Domain.src.Abstractions;
 using EcommerceBackend.Domain.src.Common;
@@ -78,6 +79,13 @@ namespace EcommerceBackend.Business.src.Services.Implementations
             return readCategoryDtos;
         }
 
+        public async Task<IEnumerable<ReadProductDto>> GetAllProductsInCategoryAsync(Guid categoryId)
+        {
+            var products = await _categoryRepository.GetAllProductsInCategoryAsync(categoryId);
+            var readProductDtos = _mapper.Map<IEnumerable<ReadProductDto>>(products);
+            return readProductDtos;
+        }
+
         public async Task<ReadCategoryDto> GetCategoryByIdAsync(Guid categoryId)
         {
             var category = await _categoryRepository.GetByIdAsync(categoryId) 
@@ -88,7 +96,8 @@ namespace EcommerceBackend.Business.src.Services.Implementations
 
         public async Task<ReadCategoryDto> UpdateCategoryAsync(Guid categoryId, UpdateCategoryDto categoryDto)
         {   
-            var existingCategory = await _categoryRepository.GetByIdAsync(categoryId) ?? throw new ArgumentException("Category with ID {categoryId} not found.");
+            var existingCategory = await _categoryRepository.GetByIdAsync(categoryId) 
+                ?? throw new ArgumentException("Category with ID {categoryId} not found.");
 
             var existingCategoryDto = _mapper.Map<UpdateCategoryDto>(existingCategory);
             var categoryDtoProperties = typeof(UpdateCategoryDto).GetProperties();

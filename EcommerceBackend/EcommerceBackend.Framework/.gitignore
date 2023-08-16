@@ -3,4 +3,9 @@ bin/
 obj/
 Migrations/
 
+# Settings
+appsettings.Development.json
+appsettings.json
+
+# Test
 test.http 

@@ -8,4 +8,4 @@ namespace EcommerceBackend.Domain.src.Entities
         public decimal TotalAmount { get; set; }
         public virtual List<OrderItem> OrderItems { get; set; }
     }
-}
+} 
