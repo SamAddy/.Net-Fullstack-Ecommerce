@@ -1,8 +1,6 @@
 using EcommerceBackend.Business.src.Dtos.UserDtos;
 using EcommerceBackend.Business.src.Services.Abstractions;
-using EcommerceBackend.Business.src.Services.Implementations;
 using EcommerceBackend.Domain.src.Abstractions;
-using EcommerceBackend.Domain.src.Entities;
 
 namespace EcommerceBackend.Business.src.Services.Common
 {
@@ -19,18 +17,20 @@ namespace EcommerceBackend.Business.src.Services.Common
 
         public async Task<string> AutheticateUser(UserCredentialsDto userCredentials)
         {
-            var user = await _userRepository.GetUserByEmailAsync(userCredentials.Email);
+            var user = await _userRepository.GetUserByEmailAsync(userCredentials.Email)
+                ?? throw new ArgumentException("Invalid login credentials.");
             var isAuthenticated = PasswordService.VerifyPassword(user.PasswordHash, userCredentials.Password);
             if (!isAuthenticated)
             {
                 throw new ArgumentException("Invalid login credentials");
             }
-            if (!isAuthenticated)
-            {
-                throw new ArgumentException("Invalid login credentials password");
-            }
             string token = _jwtManager.GenerateAccessToken(user);
             return token;
+        }
+
+        public async Task<string> RefreshToken(string refreshToken)
+        {
+            return await _jwtManager.RefreshAccessToken(refreshToken);
         }
     }
 }

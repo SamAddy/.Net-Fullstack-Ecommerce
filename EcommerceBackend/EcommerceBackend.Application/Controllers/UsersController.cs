@@ -4,11 +4,11 @@ using EcommerceBackend.Business.src.Dtos.UserDtos;
 using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Domain.src.Common;
 using Microsoft.AspNetCore.Mvc;
-using EcommerceBackend.Domain.src.Entities;
+using System.Security.Claims;
 
 namespace EcommerceBackend.Application.Controllers
 {
-    
+
     [ApiController]
     [Route("api/v1/[controller]")]
     public class UsersController : ControllerBase
@@ -23,7 +23,7 @@ namespace EcommerceBackend.Application.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<ReadUserDto>>> GetAllUsers([FromQuery] QueryOptions queryOptions)
         {
             var users = await _userService.GetAllUsersAsync(queryOptions);
@@ -42,17 +42,30 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpGet("{id:Guid}")]
+        [Authorize]
         public async Task<ActionResult<ReadUserDto>> GetUserById(Guid id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
-            if (user == null)
+            var requestingUserId = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (requestingUserId == null || !Guid.TryParse(requestingUserId.Value, out var requestUserId))
             {
-                return NotFound();
+                return Forbid();
             }
-            return Ok(user);
+            
+            if (requestUserId == id)
+            {
+                var user = await _userService.GetUserByIdAsync(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return Ok(user);
+            }
+            return Forbid();
         }
 
-        [HttpGet("byEmail/{email}")]
+        [HttpGet("Email/{email}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ReadUserDto>> GetUserByEmail(string email)
         {
             var user = await _userService.GetUserByEmailAsync(email);
@@ -64,29 +77,52 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
+        [Authorize]
         public async Task<ActionResult<bool>> DeleteUser(Guid id)
         {
-            var result = await _userService.DeleteUserByIdAsync(id);
-            if (!result)
+            var requestingUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (requestingUserIdClaim == null || !Guid.TryParse(requestingUserIdClaim.Value, out var requestingUserId))
             {
-                NotFound();
-                return false;
+                return Forbid();
             }
-            return true;
+
+            if (User.IsInRole("Admin") || requestingUserId == id)
+            {
+                var result = await _userService.DeleteUserByIdAsync(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
+                return true;
+            }
+            return Forbid();
         }
 
         [HttpPut("{id:Guid}")]
+        [Authorize]
         public async Task<ActionResult<ReadUserDto>> UpdateUser(Guid id, [FromBody]UpdateUserDto userDto)
         {
-            var user = await _userService.UpdateUserAsync(id, userDto);
-            if (user == null)
+            var requestUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (requestUserIdClaim == null || !Guid.TryParse(requestUserIdClaim.Value, out var UpdateRequestingUserId))
             {
-                return BadRequest();
+                return Forbid();
             }
-            var readUserDto = _mapper.Map<ReadUserDto>(user);
-            return Ok(readUserDto);
+            
+            if (UpdateRequestingUserId == id)
+            {
+                var user = await _userService.UpdateUserAsync(id, userDto);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+                var readUserDto = _mapper.Map<ReadUserDto>(user);
+                return Ok(readUserDto);
+            }
+            return Forbid();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("Admin/")]
         public async Task<ActionResult<ReadUserDto>> CreateAdmin([FromBody]CreateUserDto userDto)
         {

@@ -7,12 +7,9 @@ using EcommerceBackend.Framework.src.Authentication.OptionsSetup;
 using EcommerceBackend.Framework.src.Database;
 using EcommerceBackend.Framework.src.Middlewares;
 using EcommerceBackend.Framework.src.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,33 +33,24 @@ builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtManager, JwtManager>();
 
+builder.Services.AddHttpContextAccessor();
 // Configure JwtOptions
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
-builder.Services.AddSingleton<IConfigureOptions<JwtOptions>, JwtOptionsSetup>();
 
 // Configure JwtBearereOptions
-// builder.Services.AddSingleton<IConfigureOptions<JwtBearerOptions>, JwtBearerOptionsSetup>();
-// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//     .AddJwtBearer();
 JwtConfiguration.ConfigureJwt(builder.Services, builder.Configuration);
-Console.WriteLine("Done Configuring JwtBearereOptions");
 
+// Configure middlewares
 builder.Services.AddScoped<LoggingMiddleWare>();
 builder.Services.AddScoped<ErrorHandlerMiddleware>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => 
+builder.Services.AddSwaggerGen(options =>
 {
-    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-    {
-        Description = "Bearer token authentication",
-        Name = "Authentication",
-        In = ParameterLocation.Header,
-    });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop-Goodies-API", Version = "v1" });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-
 
 // Add Auto Mapper Profile service
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -70,11 +58,10 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseDeveloperExceptionPage();
+app.UseSwagger();
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop-Goodies-API v1"); });
+
 
 app.UseMiddleware<LoggingMiddleWare>();
 

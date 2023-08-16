@@ -1,8 +1,9 @@
 using EcommerceBackend.Business.src.Dtos.Product;
 using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Domain.src.Common;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceBackend.Application.Controllers
 {
@@ -37,6 +38,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ReadProductDto>> CreatProduct([FromBody] CreateProductDto product)
         {
             if (!ModelState.IsValid)
@@ -48,6 +50,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpPut("{id:Guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ReadProductDto>> UpdateProduct(Guid id, [FromBody] UpdateProductDto productDto)
         {
             var product = await _productService.UpdateProductAsync(id, productDto);
@@ -55,6 +58,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteProductById(Guid id)
         {
             var result = await _productService.DeleteProductByIdAsync(id);

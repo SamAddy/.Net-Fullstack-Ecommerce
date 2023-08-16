@@ -1,7 +1,8 @@
-using AutoMapper;
 using EcommerceBackend.Business.src.Dtos.CategoryDtos;
+using EcommerceBackend.Business.src.Dtos.Product;
 using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Domain.src.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +27,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ReadCategoryDto>> CreateCategory([FromBody] CreateCategoryDto categoryDto)
         {
             var category = await _categoryService.CreateCategoryAsync(categoryDto);
@@ -46,6 +48,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpPut("{id:Guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ReadCategoryDto>> UpdateCategory(Guid id, [FromBody] UpdateCategoryDto categoryDto)
         {
             var category = await _categoryService.UpdateCategoryAsync(id, categoryDto);
@@ -53,6 +56,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteCategory(Guid id)
         {
             var result = await _categoryService.DeleteCategoryAsync(id);
@@ -62,6 +66,13 @@ namespace EcommerceBackend.Application.Controllers
                 return false;
             }
             return true;
+        }
+
+        [HttpGet("{id:Guid}/products")]
+        public async Task<ActionResult<ReadProductDto>> GetAllProductInCategory(Guid id)
+        {
+            var products = await _categoryService.GetAllProductsInCategoryAsync(id);
+            return Ok(products);
         }
     }
 }

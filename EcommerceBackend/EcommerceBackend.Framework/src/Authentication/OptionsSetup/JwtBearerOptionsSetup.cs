@@ -11,22 +11,10 @@ namespace EcommerceBackend.Framework.src.Authentication.OptionsSetup
 
         public JwtBearerOptionsSetup(IOptions<JwtOptions> jwtOptions)
         {
-            try 
-            {
-                _jwtOptions = jwtOptions.Value;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred while initializing JwtBearerOptionsSetup:");
-                Console.WriteLine(ex.Message);
-                throw;
-            }
+            _jwtOptions = jwtOptions.Value;
         }
         public void Configure(JwtBearerOptions options)
         {
-            Console.WriteLine("***********************");
-            Console.WriteLine("found key in bearer");
-            Console.WriteLine("***********************");
             options.TokenValidationParameters = new()
             {
                 ValidateIssuer = true,
@@ -38,7 +26,6 @@ namespace EcommerceBackend.Framework.src.Authentication.OptionsSetup
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_jwtOptions.SecretKey))
             };
-            
         }
     }
 }

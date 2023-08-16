@@ -20,5 +20,11 @@ namespace EcommerceBackend.Application.Controllers
         {
             return Ok(await _authService.AutheticateUser(userCredentials));
         }
+
+        [HttpPost("token")]
+        public async Task<ActionResult<string>> RefreshToken([FromBody] string token)
+        {
+            return Ok(await _authService.RefreshToken(token));
+        }
     }
 }
