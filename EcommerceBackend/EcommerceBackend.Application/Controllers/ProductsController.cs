@@ -37,6 +37,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<ReadProductDto>> CreatProduct([FromBody] CreateProductDto product)
