@@ -1,4 +1,5 @@
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 using EcommerceBackend.Domain.src.Abstractions;
 using EcommerceBackend.Domain.src.Common;
 using EcommerceBackend.Domain.src.Entities;
@@ -59,22 +60,34 @@ namespace EcommerceBackend.Framework.src.Repositories
         public async Task<IEnumerable<TEntity>> GetAllAsync(QueryOptions queryOptions)
         {
             IQueryable<TEntity> query = _dbSet;
+
             if (!string.IsNullOrEmpty(queryOptions.SearchKeyword))
             {
-                var searchableProperties = new[] { "Name", "Description" };
                 var entityProperties = typeof(TEntity).GetProperties();
-
-
-                var validProperties = searchableProperties
-                    .Where(property => typeof(TEntity).GetProperty(property) != null)
+                var searchableProperties = entityProperties
+                    .Where(property => property.PropertyType == typeof(string))
                     .ToList();
-                if (validProperties.Any())
-                {
-                    var orConditions = validProperties
-                        .Select(property => $"{property}.Contians(@0)");
 
-                    var combinedCondition = string.Join(" or ", orConditions);    
-                    query = query.Where(combinedCondition, queryOptions.SearchKeyword);                
+                var parameter = Expression.Parameter(typeof(TEntity), "entity");
+                var orConditions = new List<Expression>();
+
+                foreach (var property in searchableProperties)
+                {
+                    var propertyAccess = Expression.Property(parameter, property);
+                    var toLowerMethod = typeof(string).GetMethod("ToLower", Type.EmptyTypes);
+                    var callToLower = Expression.Call(propertyAccess, toLowerMethod);
+                    var searchValueLower = queryOptions.SearchKeyword.ToLower(); // Convert to lowercase
+                    var searchValue = Expression.Constant(searchValueLower, typeof(string));
+                    var containsMethod = typeof(string).GetMethod("Contains", new[] { typeof(string) });
+                    var containsCall = Expression.Call(callToLower, containsMethod, searchValue);
+                    orConditions.Add(containsCall);
+                }
+
+                if (orConditions.Any())
+                {
+                    var combinedCondition = orConditions.Aggregate(Expression.OrElse);
+                    var lambda = Expression.Lambda<Func<TEntity, bool>>(combinedCondition, parameter);
+                    query = query.Where(lambda);
                 }
             }
 
