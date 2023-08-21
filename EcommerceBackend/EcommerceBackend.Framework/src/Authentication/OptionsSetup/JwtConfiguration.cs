@@ -42,32 +42,32 @@ namespace EcommerceBackend.Framework.src.Authentication.OptionsSetup
                 
             // });
 
-            services.AddSwaggerGen(options => 
-            {
-                options.AddSecurityDefinition("jwt", new OpenApiSecurityScheme
-                {
-                    Description = "Bearer token authentication",
-                    Name = "Authentication",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer"
-                });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        Array.Empty<string>()
-                    }
-                });
-                options.OperationFilter<SecurityRequirementsOperationFilter>();
-            });
+            // services.AddSwaggerGen(options => 
+            // {
+            //     options.AddSecurityDefinition("jwt", new OpenApiSecurityScheme
+            //     {
+            //         Description = "Bearer token authentication",
+            //         Name = "Authentication",
+            //         In = ParameterLocation.Header,
+            //         Type = SecuritySchemeType.Http,
+            //         Scheme = "Bearer"
+            //     });
+            //     options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            //     {
+            //         {
+            //             new OpenApiSecurityScheme
+            //             {
+            //                 Reference = new OpenApiReference
+            //                 {
+            //                     Type = ReferenceType.SecurityScheme,
+            //                     Id = "Bearer"
+            //                 }
+            //             },
+            //             Array.Empty<string>()
+            //         }
+            //     });
+            //     options.OperationFilter<SecurityRequirementsOperationFilter>();
+            // });
         }
     }
 }
