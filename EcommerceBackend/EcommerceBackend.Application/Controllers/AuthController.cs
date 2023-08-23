@@ -15,7 +15,7 @@ namespace EcommerceBackend.Application.Controllers
             _authService = authService;
         }
 
-        [HttpPost]
+        [HttpPost("profile")]
         public async Task<ActionResult<string>> AuthenticateUser([FromBody] UserCredentialsDto userCredentials)
         {
             return Ok(await _authService.AutheticateUser(userCredentials));
