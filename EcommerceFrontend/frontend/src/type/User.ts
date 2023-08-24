@@ -10,9 +10,9 @@ export interface User {
 
 export interface UserState {
     users: User[],
-    currentUser?: User,
+    currentUser?: User | null,
     loading: boolean,
-    error: string
+    error: string | null
     isLoggedIn: boolean 
 }
 

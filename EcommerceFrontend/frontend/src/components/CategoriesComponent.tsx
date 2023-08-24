@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
-import useAppDispatch from '../../hooks/useAppDispatch'
-import useCustomSelector from '../../hooks/useCustomSelector';
-import { fetchAllCategories } from '../reducers/categoriesReducer';
+import useAppDispatch from '../hooks/useAppDispatch'
+import useCustomSelector from '../hooks/useCustomSelector';
+import { fetchAllCategories } from '../redux/reducers/categoriesReducer';
 import { Typography } from '@mui/material';
 import ManageLoading from './ManageLoading';
 import CategoryList from './CategoryList';

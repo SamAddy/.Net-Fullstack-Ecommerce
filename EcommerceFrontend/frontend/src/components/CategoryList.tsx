@@ -1,5 +1,5 @@
 import React from 'react'
-import { CategoryState } from '../../type/Category'
+import { CategoryState } from '../type/Category'
 import { Button, Card, CardActionArea, CardContent, CardMedia, CircularProgress, Grid, ImageList, ImageListItem, ImageListItemBar, Tooltip, Typography } from '@mui/material'
 import ManageLoading from './ManageLoading'
 

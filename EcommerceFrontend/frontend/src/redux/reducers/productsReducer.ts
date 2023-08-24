@@ -1,15 +1,16 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CreateProduct, Product, ProductState, ProductUpdate } from "../../type/Product";
 import axios, { AxiosError } from "axios";
-import { FetchAllParams } from "../../type/Shared";
+import { BASE_URL, FetchAllParams } from "../../type/Shared";
 
 const initialState: ProductState = {
     products: [],
     loading: false,
     error: "",
+    showAdminButtons: false
 }
 
-const BASE_URL = 'http://localhost:5034/api/v1'
+// const BASE_URL = 'http://localhost:5034/api/v1'
 
 export const fetchAllProducts = createAsyncThunk(
     "fetchAllProducts",
@@ -30,7 +31,6 @@ export const fetchAllProducts = createAsyncThunk(
                   PageSize: pageSize,
                 },
               });
-              console.log("products: " + response.data);
             return response.data
         }
         catch (e) {

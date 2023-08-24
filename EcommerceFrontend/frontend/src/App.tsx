@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import ProductsComponent from './redux/components/ProductsComponent';
+import ProductsComponent from './components/ProductsComponent';
 import NotFoundPage from './pages/NotFoundPage';
-import TestComponents from './redux/components/TestComponents';
-import CategoriesComponent from './redux/components/CategoriesComponent';
-
-
+import TestComponents from './components/TestComponents';
+import CategoriesComponent from './components/CategoriesComponent';
+import SigninPage from './pages/SignInPage';
 
 const App = () => { 
   const router = createBrowserRouter([
@@ -22,7 +21,15 @@ const App = () => {
     {
       path: "test/",
       element: <TestComponents />
-    }
+    },
+    {
+      path: "signin/",
+      element: <SigninPage />
+    },
+    {
+      path: "signup/",
+      element: <NotFoundPage />
+    },
   ]);
 
   return (
