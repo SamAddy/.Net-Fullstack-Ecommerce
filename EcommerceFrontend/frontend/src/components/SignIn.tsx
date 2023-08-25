@@ -15,10 +15,11 @@ import { Link } from "react-router-dom";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { UserCredentials } from "../type/User";
 import { login } from "../redux/reducers/usersReducer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "@mui/material";
 import { AxiosError } from "axios";
 import { error } from "console";
+import useCustomSelector from "../hooks/useCustomSelector";
 
 function Copyright(props: any) {
   return (
@@ -38,25 +39,33 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+const SignIn = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (email === "" && password === "") {
       return;
-    } else {
-      dispatch(login({ email, password })).then((action) => {
-        if (login.rejected.match(action)) {
+    }
+
+    try {
+      const action = await dispatch(login({ email, password }));
+      if (login.fulfilled.match(action)) {
+        const updatedCurrentUser = action.payload; 
+        if (typeof updatedCurrentUser === "string") {
           setShowAlert(true);
+        } else {
+          console.log(updatedCurrentUser);
+          window.location.href = '/';
         }
-        else {
-            window.location.href = '/';
-        }
-      });
+      } else {
+        setShowAlert(true);
+      }
+    } catch (error) {
+      setShowAlert(true);
     }
   };
 
@@ -140,3 +149,5 @@ export default function SignIn() {
     </ThemeProvider>
   );
 }
+
+export default SignIn

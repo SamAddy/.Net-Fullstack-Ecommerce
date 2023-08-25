@@ -169,20 +169,20 @@ const usersSlice = createSlice({
                 state.error = null
             })
             .addCase(login.fulfilled, (state, action) => {
-                // state.loading = false;
-                // if (typeof action.payload === "string")
-                // {
-                //     state.error = action.payload;
-                //     state.currentUser = null;
-                //     state.isLoggedIn = false;
-                // }
-                // state.error = null;
-                // state.currentUser = action.payload as User;
-                // state.isLoggedIn = true;
                 state.loading = false;
-                state.currentUser = action.payload as User;
-                state.isLoggedIn = true;
-                state.error = null;
+                if (typeof action.payload === "string")
+                {
+                    state.error = action.payload;
+                    state.currentUser = null;
+                    console.log("current User: " + state.currentUser);
+                    state.isLoggedIn = false;
+                }
+                else {
+                    state.error = null;
+                    state.currentUser = action.payload as User;
+                    console.log("current User: " + state.currentUser.firstName);
+                    state.isLoggedIn = true;
+                }
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
