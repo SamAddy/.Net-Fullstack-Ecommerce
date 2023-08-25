@@ -1,42 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ProductsComponent from './components/ProductsComponent';
-import NotFoundPage from './pages/NotFoundPage';
-import TestComponents from './components/TestComponents';
 import CategoriesComponent from './components/CategoriesComponent';
+import TestComponents from './components/TestComponents';
 import SigninPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import HomePage from './pages/HomePage';
 
 const App = () => { 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <ProductsComponent />,
-      errorElement: <NotFoundPage />,
-    },
-    {
-      path: "categories/",
-      element: <CategoriesComponent />
-    },
-    {
-      path: "test/",
-      element: <TestComponents />
-    },
-    {
-      path: "signin/",
-      element: <SigninPage />
-    },
-    {
-      path: "signup/",
-      element: <NotFoundPage />
-    },
-  ]);
-
   return (
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/categories" element={<CategoriesComponent />} />
+        <Route path="/test" element={<TestComponents />} />
+        <Route path="/signin" element={<SigninPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/products" element={<ProductsComponent />} />
+      </Routes>
+    </Router>
+  );
 }
-
 export default App

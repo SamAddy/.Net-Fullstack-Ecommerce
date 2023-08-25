@@ -10,7 +10,7 @@ const initialState: UserState = {
     users: [],
     loading: false,
     error: null,
-    isLoggedIn: false,
+    currentUser: null
 }
 
 export const fetchAllUsers = createAsyncThunk(
@@ -84,9 +84,9 @@ export const login = createAsyncThunk (
     async ({ email, password }: UserCredentials, { dispatch }) => {
       try {
         const result = await axios.post(`${BASE_URL}/auth/login`, {email, password});
-        localStorage.setItem("token", result.data);
-        const authentication = await dispatch(authenticate(result.data));
-        return authentication.payload as User;
+        const token = result.data;
+        const authentication = await dispatch(authenticate(token));
+        return { user: authentication.payload, token };
       }
       catch (err) {
         const error = err as AxiosError;
@@ -125,8 +125,8 @@ const usersSlice = createSlice({
         },
         logout: (state) => {
             localStorage.removeItem("token")
-            state.currentUser = undefined
-            state.error = ""
+            state.currentUser = null
+            state.error = null
         }
     },
     extraReducers: (build) => {
@@ -166,7 +166,8 @@ const usersSlice = createSlice({
             })
             .addCase(login.pending, (state) => {
                 state.loading = true;
-                state.error = null
+                state.error = null;
+                state.currentUser = null;
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.loading = false;
@@ -175,20 +176,18 @@ const usersSlice = createSlice({
                     state.error = action.payload;
                     state.currentUser = null;
                     console.log("current User: " + state.currentUser);
-                    state.isLoggedIn = false;
                 }
                 else {
                     state.error = null;
-                    state.currentUser = action.payload as User;
-                    console.log("current User: " + state.currentUser.firstName);
-                    state.isLoggedIn = true;
+                    state.currentUser = action.payload.user as User;
+                    state.currentUser.token = action.payload.token;
+                    localStorage.setItem('token', action.payload.token);
                 }
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message!
                 state.currentUser = null;
-                state.isLoggedIn = false;
             })
     }
 })

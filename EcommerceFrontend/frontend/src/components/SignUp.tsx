@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import useCustomSelector from '../hooks/useCustomSelector';
 
 function Copyright(props: any) {
   return (
@@ -30,6 +31,8 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const currentUser = useCustomSelector((state) => state.users.currentUser);
+  console.log("currentuser on signup page: ", currentUser);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);

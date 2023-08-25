@@ -6,6 +6,7 @@ export interface User {
     password: string
     role: "admin" | "customer"
     avatar: string
+    token: string
 }
 
 export interface UserState {
@@ -13,7 +14,6 @@ export interface UserState {
     currentUser?: User | null,
     loading: boolean,
     error: string | null
-    isLoggedIn: boolean 
 }
 
 export interface UserCredentials {

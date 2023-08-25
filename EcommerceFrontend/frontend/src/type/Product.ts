@@ -14,7 +14,7 @@ export interface ProductState {
     products: Product[],
     loading: boolean,
     error: string | null
-    showAdminButtons: boolean
+    // showAdminButtons: boolean
 }
 
 export interface CreateProduct {

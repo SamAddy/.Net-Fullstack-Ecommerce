@@ -4,10 +4,13 @@ import React from 'react'
 import { SearchIconWrapper, StyledInputBase } from '../styles/Component/CustomSearchBar'
 import useCustomSelector from '../hooks/useCustomSelector';
 import { Link } from 'react-router-dom';
+import useAppDispatch from '../hooks/useAppDispatch';
+import { logout } from '../redux/reducers/usersReducer';
 
 const settings = ["Profile", "Login"];
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const currentUser = useCustomSelector((state) => state.users.currentUser);
   const [profileMenuAnchor, setProfileMenuAnchor] = React.useState<null | HTMLElement>(null);
 
@@ -18,6 +21,11 @@ const Header = () => {
   const handleProfileMenuClose = () => {
     setProfileMenuAnchor(null);
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.href = '/';
+  }
 
   return (
     <AppBar position="static">
@@ -49,6 +57,7 @@ const Header = () => {
                 onClose={handleProfileMenuClose}
               >
                 <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </>
           ) : (

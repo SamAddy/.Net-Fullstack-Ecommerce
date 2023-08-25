@@ -1,15 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { FetchAllParams } from "../../type/Shared";
+import { BASE_URL, FetchAllParams } from "../../type/Shared";
 import axios, { AxiosError } from "axios";
 import { Category, CategoryState } from "../../type/Category";
+import { RootState } from "../rootReducer";
 
 const initialState: CategoryState = {
     categories: [],
     loading: false,
     error: '',
   };
-
-const BASE_URL = 'http://localhost:5034/api/v1'
 
 export const fetchAllCategories = createAsyncThunk(
     'fetchAllCategories',
@@ -42,6 +41,33 @@ export const fetchAllCategories = createAsyncThunk(
     }
   );
 
+  export const deleteCartegory = createAsyncThunk(
+    "deleteCartegory",
+    async (cartegoryId: string, { getState }) => {
+        try {
+          const state = getState() as RootState;
+          const token = state.users.currentUser?.token
+          if (token === null)
+          {
+            throw new Error('Authorization token not found.');
+          }
+            const response = await axios.delete(`${BASE_URL}/categories/${cartegoryId}`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            return response.data
+        }
+        catch (e) {
+            const error = e as AxiosError
+            if (error.response) {
+                return JSON.stringify(error.response.data)
+            }
+            return error.message
+        }
+    }
+)
+
   const categoriesSlice = createSlice({
     name: 'category', 
     initialState,
@@ -63,7 +89,24 @@ export const fetchAllCategories = createAsyncThunk(
         .addCase(fetchAllCategories.rejected, (state, action) => {
           state.loading = false;
           state.error = action.error.message as string;
-        });
+        })
+        .addCase(deleteCartegory.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(deleteCartegory.fulfilled, (state, action) => {
+          state.loading = false
+          if (action.payload instanceof AxiosError) {
+              state.error = action.payload.message
+          }
+          else {
+              const categoryId = action.meta.arg
+              state.categories = state.categories.filter((category) => category.id !== categoryId)
+          }
+        })
+        .addCase(deleteCartegory.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload as string
+        })
     },
   });
   

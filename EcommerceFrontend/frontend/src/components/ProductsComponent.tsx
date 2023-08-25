@@ -12,6 +12,7 @@ const ProductsComponent = () => {
     const loading = useCustomSelector((state) => state.products.loading);
     const error = useCustomSelector((state) => state.products.error);
     const currentUser = useCustomSelector((state) => state.users.currentUser);
+    console.log("currentuser in products 5: ", currentUser);
     const [ showAdminButtons, setAdminButtons ] = useState(false);
   
     
@@ -29,14 +30,15 @@ const ProductsComponent = () => {
           pageSize: 10,
         })
       );
-    }, [dispatch, currentUser]);
+    }, [dispatch]);
+    
   return (
     <div>
       <Header />
         <Typography variant='h4'>
             Products
         </Typography>
-        <ProductList products={products} loading={loading} error={error} showAdminButtons={showAdminButtons}/>
+        <ProductList products={products} loading={loading} error={error} />
     </div>
   )
 }

@@ -6,8 +6,7 @@ import { BASE_URL, FetchAllParams } from "../../type/Shared";
 const initialState: ProductState = {
     products: [],
     loading: false,
-    error: "",
-    showAdminButtons: false
+    error: null,
 }
 
 // const BASE_URL = 'http://localhost:5034/api/v1'

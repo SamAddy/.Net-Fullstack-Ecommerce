@@ -13,14 +13,13 @@ import {
 } from "@mui/material";
 import { AddShoppingCart, Delete, Edit } from "@mui/icons-material";
 import BoldIconButton from "../styles/Component/BoldIconButton";
-import useCustomSelector from "../hooks/useCustomSelector";
 
-const ProductList = ({ products, loading, error, showAdminButtons }: ProductState) => {
+const ProductList = ({ products, loading, error }: ProductState) => {
   if (loading) {
     return <CircularProgress />;
   }
   if (error) {
-    return <p>Error loading content</p>;
+    return <p>{ error } </p>;
   }
   return (
     <>
@@ -60,14 +59,14 @@ const ProductList = ({ products, loading, error, showAdminButtons }: ProductStat
               <CardActions
                 style={{ justifyContent: "space-between", marginTop: "auto" }}
               >
-                {/* <BoldIconButton aria-label="add to favorites" bold>
+                <BoldIconButton aria-label="add to favorites" bold>
                   <FavoriteBorderSharpIcon />
                 </BoldIconButton>
                 <Typography>&euro;{product.price}</Typography>
                 <BoldIconButton aria-label="add to cart" bold>
                   <AddShoppingCart />
-                </BoldIconButton> */}
-                {showAdminButtons ? (
+                </BoldIconButton>
+                {/* {showAdminButtons ? (
                   <>
                     <BoldIconButton aria-label="delete product" bold>
                       <Delete />
@@ -91,7 +90,7 @@ const ProductList = ({ products, loading, error, showAdminButtons }: ProductStat
                       <AddShoppingCart />
                     </BoldIconButton>
                   </>
-                )}
+                )} */}
               </CardActions>
             </Card>
           </Grid>

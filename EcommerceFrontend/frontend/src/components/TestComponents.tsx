@@ -32,16 +32,17 @@ export interface Category {
 
 const TestComponents = () => {
     const [categories, setCategories] = useState<Category[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
 
     const getCategories = async (): Promise<void> => {
         try {
-            const response = await fetch("http://localhost:5034/api/v1/categories");
+            const response = await fetch("http://localhost:5034/api/v1/Products");
             // const response = await fetch("https://api.escuelajs.co/api/v1/categories");
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            const data: Category[] = await response.json();
-            setCategories(data);
+            const data: Product[] = await response.json();
+            setProducts(data);
         } catch (error) {
             console.error(error);
         }
@@ -52,9 +53,9 @@ const TestComponents = () => {
     }, []);
   return (
     <div>
-    <h2>Categories</h2>
+    <h2>products</h2>
     <ul>
-      {categories.map(category => (
+      {products.map(category => (
         <li key={category.id}>
           {category.name}
         </li>

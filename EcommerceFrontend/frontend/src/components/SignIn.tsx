@@ -44,6 +44,8 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const currentUser = useCustomSelector((state) => state.users.currentUser);
+  console.log("currentuser from reducer in sign in 1: ", currentUser);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -54,11 +56,9 @@ const SignIn = () => {
     try {
       const action = await dispatch(login({ email, password }));
       if (login.fulfilled.match(action)) {
-        const updatedCurrentUser = action.payload; 
-        if (typeof updatedCurrentUser === "string") {
+        if (typeof action.payload === "string") {
           setShowAlert(true);
         } else {
-          console.log(updatedCurrentUser);
           window.location.href = '/';
         }
       } else {
@@ -68,7 +68,7 @@ const SignIn = () => {
       setShowAlert(true);
     }
   };
-
+  console.log("currentuser from reducer in sign in: ", currentUser);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
