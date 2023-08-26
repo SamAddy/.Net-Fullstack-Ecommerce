@@ -17,9 +17,7 @@ import { UserCredentials } from "../type/User";
 import { login } from "../redux/reducers/usersReducer";
 import { useEffect, useState } from "react";
 import { Alert } from "@mui/material";
-import { AxiosError } from "axios";
-import { error } from "console";
-import useCustomSelector from "../hooks/useCustomSelector";
+
 
 function Copyright(props: any) {
   return (
@@ -44,11 +42,15 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-  const currentUser = useCustomSelector((state) => state.users.currentUser);
-  console.log("currentuser from reducer in sign in 1: ", currentUser);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+    
     if (email === "" && password === "") {
       return;
     }
@@ -68,7 +70,6 @@ const SignIn = () => {
       setShowAlert(true);
     }
   };
-  console.log("currentuser from reducer in sign in: ", currentUser);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

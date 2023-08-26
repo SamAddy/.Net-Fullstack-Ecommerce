@@ -11,8 +11,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import useCustomSelector from '../hooks/useCustomSelector';
+import useAppDispatch from '../hooks/useAppDispatch';
+import { useState } from 'react';
+import { createUser, registerUser } from '../redux/reducers/usersReducer';
+import { Alert } from '@mui/material';
 
 function Copyright(props: any) {
   return (
@@ -31,15 +35,37 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-  const currentUser = useCustomSelector((state) => state.users.currentUser);
-  console.log("currentuser on signup page: ", currentUser);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    try {
+      const action = await dispatch(registerUser({ firstName, lastName, email, password }));
+      if (registerUser.fulfilled.match(action)) {
+        if (typeof action.payload === "string") {
+          setShowAlert(true);
+          setAlertMessage(action.payload);
+        } else {
+          navigate("/signin");
+        }
+      } else {
+        setShowAlert(true);
+        setAlertMessage("Invalid data passed.");
+      }
+    }
+    catch (error) {
+      setShowAlert(true);
+        setAlertMessage("Error occured while creating user.");
+    }
+
   };
 
   return (
@@ -60,6 +86,11 @@ export default function SignUp() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {showAlert && (
+            <Alert variant="outlined" severity="error">
+              {alertMessage}
+            </Alert>
+          )}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -70,6 +101,8 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  value={firstName}
+                  onChange={(f) => setFirstName(f.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -81,6 +114,8 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  value={lastName}
+                  onChange={(l) => setLastName(l.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -91,6 +126,8 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,12 +139,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  value={password}
+                  onChange={(p) => setPassword(p.target.value)}
                 />
               </Grid>
             </Grid>
