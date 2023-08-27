@@ -1,10 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { Axios, AxiosError } from "axios";
 
-import { NewUser, User, UserCredentials, UserState, UserUpdate } from "../../type/User";
+import { DeleteUser, NewUser, User, UserCredentials, UserState, UserUpdate } from "../../type/User";
 import { BASE_URL } from "../../type/Shared";
-
-// const BASE_URL = 'http://localhost:5034/api/v1'
 
 const initialState: UserState = {
     users: [],
@@ -30,7 +28,7 @@ export const fetchAllUsers = createAsyncThunk(
     }
 )
 
-export const getUserById = async (id: number) => {
+export const getUserById = async (id: string) => {
     try {
         const response = await axios.get<User>(`${BASE_URL}/users/${id}`)
         return response.data
@@ -100,10 +98,11 @@ export const login = createAsyncThunk (
   )
 
 export const registerUser = createAsyncThunk(
-    "register",
-    async (userData: NewUser) => {
+    "signup",
+    async ({ firstName, lastName, email, password }: NewUser) => {
         try {
-            const response = await createUser(userData)
+            const response = await axios.post(`${BASE_URL}/users`, { firstName, lastName, email, password }
+            );
             return response
         }
         catch(e) {
@@ -112,6 +111,49 @@ export const registerUser = createAsyncThunk(
                 return JSON.stringify(error.response.data)
             }
             return error.message
+        }
+    }
+)
+
+export const updateUser = createAsyncThunk(
+    "updateUser",
+    async ({ id, firstName, lastName, token }: UserUpdate) => {
+        try {
+            const response = await axios.put(`${BASE_URL}/users/${id}`, { firstName, lastName }, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (err) {
+            const error = err as AxiosError;
+            if (error.response) {
+                return JSON.stringify(error.response.data);
+            }
+            return error.message;
+        }
+    }
+);
+
+export const deleteUser = createAsyncThunk(
+    "deleteUser",
+    async ({ id, token}: DeleteUser) => {
+        try {
+            const response = await axios.delete(`${BASE_URL}/users/${id}`,  
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (err) {
+            const error = err as AxiosError
+            if (error.response)
+            {
+                return JSON.stringify(error.response.data);
+            }
+            return error.message;
         }
     }
 )
@@ -158,11 +200,12 @@ const usersSlice = createSlice({
                     state.error = action.payload.message
                 }
                 else {
-                    state.users.push(action.payload)
+                    // state.users.push(action.payload.)
                 }
             })
             .addCase(registerUser.rejected, (state, action) => {
-                state.error = action.payload as string
+                state.error = action.payload as string;
+                console.log( "state error: ", state.error);
             })
             .addCase(login.pending, (state) => {
                 state.loading = true;
@@ -175,7 +218,6 @@ const usersSlice = createSlice({
                 {
                     state.error = action.payload;
                     state.currentUser = null;
-                    console.log("current User: " + state.currentUser);
                 }
                 else {
                     state.error = null;
@@ -188,6 +230,37 @@ const usersSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message!
                 state.currentUser = null;
+            })
+            .addCase(updateUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                if (typeof action.payload === "string")
+                {
+                    state.error = action.payload;
+                }
+                else {
+                    state.error = null;
+                    state.currentUser = action.payload;
+                }
+            })
+            .addCase(updateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            })
+            .addCase(deleteUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.users = state.users.filter(user => user.id !== action.payload)
+            })
+            .addCase(deleteUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message as string;
             })
     }
 })

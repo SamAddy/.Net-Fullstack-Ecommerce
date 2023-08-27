@@ -3,7 +3,7 @@ import { AppBar, Box, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography
 import React from 'react'
 import { SearchIconWrapper, StyledInputBase } from '../styles/Component/CustomSearchBar'
 import useCustomSelector from '../hooks/useCustomSelector';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { logout } from '../redux/reducers/usersReducer';
 
@@ -11,6 +11,7 @@ const settings = ["Profile", "Login"];
 
 const Header = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const currentUser = useCustomSelector((state) => state.users.currentUser);
   const [profileMenuAnchor, setProfileMenuAnchor] = React.useState<null | HTMLElement>(null);
 
@@ -22,9 +23,13 @@ const Header = () => {
     setProfileMenuAnchor(null);
   };
 
+  const handleProfile = () => {
+    navigate('/profile');
+  }
+
   const handleLogout = () => {
     dispatch(logout());
-    window.location.href = '/';
+    navigate('/');
   }
 
   return (
@@ -37,7 +42,7 @@ const Header = () => {
           component="a"
           href="/"
         >
-          SHOP WAVES
+          SHOP WAVE
         </Typography>
         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
           <InputBase
@@ -56,7 +61,7 @@ const Header = () => {
                 open={Boolean(profileMenuAnchor)}
                 onClose={handleProfileMenuClose}
               >
-                <MenuItem onClick={handleProfileMenuClose}>Profile</MenuItem>
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </>

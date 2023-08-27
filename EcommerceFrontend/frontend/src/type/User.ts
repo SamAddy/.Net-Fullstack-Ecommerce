@@ -21,9 +21,16 @@ export interface UserCredentials {
     password: string
 }
 
+// export interface UserUpdate {
+//     id: number
+//     update: Omit<User, "id">
+// }
+
 export interface UserUpdate {
-    id: number
-    update: Omit<User, "id">
+    id: string
+    firstName: string
+    lastName: string
+    token: string
 }
 
 export interface NewUser {
@@ -31,4 +38,9 @@ export interface NewUser {
     lastName: string
     email: string
     password: string
+}
+
+export interface DeleteUser {
+    id: string
+    token: string
 }
