@@ -7,6 +7,7 @@ import TestComponents from './components/TestComponents';
 import SigninPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
 
 const App = () => { 
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/test" element={<TestComponents />} />
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="/products" element={<ProductsComponent />} />
       </Routes>
     </Router>
