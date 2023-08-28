@@ -18,7 +18,7 @@ const ManageLoading = function <T>({
     return <CircularProgress />;
   }
   if (error) {
-    return <p>Error loading content</p>;
+    return <p> {error} </p>;
   }
   if (data) {
     return <>{children(data)}</>;

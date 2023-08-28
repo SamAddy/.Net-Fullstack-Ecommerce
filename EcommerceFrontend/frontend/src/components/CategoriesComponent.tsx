@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useAppDispatch from '../hooks/useAppDispatch'
 import useCustomSelector from '../hooks/useCustomSelector';
 import { fetchAllCategories } from '../redux/reducers/categoriesReducer';
 import { Typography } from '@mui/material';
 import ManageLoading from './ManageLoading';
 import CategoryList from './CategoryList';
+import { Category } from '../type/Category';
 
 const CategoriesComponent = () => {
     const dispatch = useAppDispatch();

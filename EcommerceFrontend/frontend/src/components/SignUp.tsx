@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,10 +10,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import useCustomSelector from '../hooks/useCustomSelector';
 import useAppDispatch from '../hooks/useAppDispatch';
 import { useState } from 'react';
-import { createUser, registerUser } from '../redux/reducers/usersReducer';
+import { registerUser } from '../redux/reducers/usersReducer';
 import { Alert } from '@mui/material';
 
 function Copyright(props: any) {
@@ -65,7 +62,6 @@ export default function SignUp() {
       setShowAlert(true);
         setAlertMessage("Error occured while creating user.");
     }
-
   };
 
   return (

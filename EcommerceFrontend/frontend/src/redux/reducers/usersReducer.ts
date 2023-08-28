@@ -1,8 +1,9 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { Axios, AxiosError } from "axios";
 
 import { DeleteUser, NewUser, User, UserCredentials, UserState, UserUpdate } from "../../type/User";
 import { BASE_URL } from "../../type/Shared";
+import { RootState } from "../rootReducer";
 
 const initialState: UserState = {
     users: [],
@@ -31,20 +32,6 @@ export const fetchAllUsers = createAsyncThunk(
 export const getUserById = async (id: string) => {
     try {
         const response = await axios.get<User>(`${BASE_URL}/users/${id}`)
-        return response.data
-    }
-    catch (e) {
-        const error = e as AxiosError
-        if (error.response) {
-            return JSON.stringify(error.response.data)
-        }
-        return error.message
-    }
-}
-
-export const createUser = async (userData: NewUser) => {
-    try {
-        const response = await axios.post(`${BASE_URL}/users`, userData)
         return response.data
     }
     catch (e) {
@@ -103,7 +90,31 @@ export const registerUser = createAsyncThunk(
         try {
             const response = await axios.post(`${BASE_URL}/users`, { firstName, lastName, email, password }
             );
-            return response
+            return response.data;
+        }
+        catch(e) {
+            const error = e as AxiosError
+            if (error.response) {
+                return JSON.stringify(error.response.data)
+            }
+            return error.message;
+        }
+    }
+)
+
+export const CreateAdmin = createAsyncThunk(
+    "createAdmin",
+    async ({ firstName, lastName, email, password }: NewUser, { getState }) => {
+        try {
+            const state = getState() as RootState;
+            const token = state.users.currentUser?.token;
+            const response = await axios.post(`${BASE_URL}/users/admin`, { firstName, lastName, email, password }, 
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            return response.data;
         }
         catch(e) {
             const error = e as AxiosError
@@ -117,8 +128,10 @@ export const registerUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
     "updateUser",
-    async ({ id, firstName, lastName, token }: UserUpdate) => {
+    async ({ id, firstName, lastName }: UserUpdate, { getState }) => {
         try {
+            const state = getState() as RootState;
+            const token = state.users.currentUser?.token
             const response = await axios.put(`${BASE_URL}/users/${id}`, { firstName, lastName }, 
             {
                 headers: {
@@ -196,16 +209,28 @@ const usersSlice = createSlice({
             }) 
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false
-                if (action.payload instanceof AxiosError) {
-                    state.error = action.payload.message
+                if ( typeof action.payload === "string") {
+                    state.error = action.payload;
                 }
                 else {
-                    // state.users.push(action.payload.)
+                    state.users.push(action.payload)
                 }
             })
             .addCase(registerUser.rejected, (state, action) => {
+                state.loading = false;
                 state.error = action.payload as string;
-                console.log( "state error: ", state.error);
+            })
+            .addCase(CreateAdmin.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(CreateAdmin.fulfilled, (state, action) => {
+                if ( typeof action.payload === "string") {
+                    state.error = action.payload;
+                }
+                else {
+                    state.users.push(action.payload)
+                }
             })
             .addCase(login.pending, (state) => {
                 state.loading = true;

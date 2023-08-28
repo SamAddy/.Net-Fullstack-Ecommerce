@@ -8,6 +8,9 @@ import SigninPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
+import ProductsDisplay from './components/ProductsDisplay';
+import AdminPage from './pages/AdminPage';
+import TestProducts from './components/TestProducts';
 
 const App = () => { 
   return (
@@ -19,7 +22,9 @@ const App = () => {
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/products" element={<ProductsComponent />} />
+        <Route path="/products" element={<ProductsDisplay />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/testProducts" element={<TestProducts />} />
       </Routes>
     </Router>
   );
