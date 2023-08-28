@@ -38,6 +38,7 @@ export interface NewUser {
     lastName: string
     email: string
     password: string
+    // token: string
 }
 
 export interface DeleteUser {

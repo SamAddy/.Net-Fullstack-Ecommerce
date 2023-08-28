@@ -1,5 +1,3 @@
-import { Product } from "./Product"
-
 export interface Category {
     id: string
     name: string
@@ -17,3 +15,9 @@ export interface NewCategory {
     image: string
 }
 
+export interface EditCategoryModalProps {
+    open: boolean;
+    category: Category;
+    onClose: () => void;
+    onSubmit: (updatedCategory: Category) => void;
+}

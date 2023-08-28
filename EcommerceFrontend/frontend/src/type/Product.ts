@@ -18,16 +18,26 @@ export interface ProductState {
 }
 
 export interface CreateProduct {
-    title: string 
-    price: number
+    name: string
     description: string 
+    price: number
+    categoryId: string
+    inventory: number
+    imageUrl: string
+}
+
+export interface UpdateProduct {
+    id: string
+    name: string
+    description: string 
+    price: number
     categoryId: string
     inventory: number
     imageUrl: string
 }
 
 export interface ProductUpdate {
-    id: number
+    id: string
     update: Partial<Omit<Product, "id">> & { id?: never }
 }
 
@@ -39,4 +49,11 @@ export interface FileUploadResponse {
     originalname: string;
     filename: string;
     location: string;
+}
+
+export interface EditProductModalProps {
+    open: boolean;
+    product: Product;
+    onClose: () => void;
+    onSubmit: (updatedProduct: Product) => void;
 }

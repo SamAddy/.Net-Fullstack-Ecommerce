@@ -2,14 +2,13 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CreateProduct, Product, ProductState, ProductUpdate } from "../../type/Product";
 import axios, { AxiosError } from "axios";
 import { BASE_URL, FetchAllParams } from "../../type/Shared";
+import { RootState } from "../rootReducer";
 
 const initialState: ProductState = {
     products: [],
     loading: false,
     error: null,
 }
-
-// const BASE_URL = 'http://localhost:5034/api/v1'
 
 export const fetchAllProducts = createAsyncThunk(
     "fetchAllProducts",
@@ -30,6 +29,7 @@ export const fetchAllProducts = createAsyncThunk(
                   PageSize: pageSize,
                 },
               });
+            console.log("products: ", response.data)
             return response.data
         }
         catch (e) {
@@ -72,33 +72,39 @@ export const uploadFile = async (file: File): Promise<string> => {
     }
 }
 
-export const addNewProduct = createAsyncThunk(
-    'createProduct',
-    async ({ file, product }: { file: File | null; product: CreateProduct }) => {
-        let imageUrl = ''
-        if (file) {
-            imageUrl = await uploadFile(file)
-        }
-
-        const productData: CreateProduct = {
-            ...product,
-            // imageUrl: file ? [imageUrl] : [],
-        }
-
+export const createProduct = createAsyncThunk(
+    "createProduct",
+    async (product: CreateProduct, { getState }) => {
         try {
-            const response = await axios.post<Product>(`${BASE_URL}/products`, productData)
-            return response.data
-        } catch (error) {
-            throw new Error('Failed to create a new product')
+            const state = getState() as RootState;
+            const token = state.users.currentUser?.token;
+            const response = await axios.post<Product>(`${BASE_URL}/products`, product, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+            return response.data;
+        } catch (err) {
+            const error = err as AxiosError;
+            if (error.response) {
+                return JSON.stringify(error.response.data);
+            }
+            return error.message;
         }
     }
 )
 
-export const updateExistingProduct = createAsyncThunk(
+export const updateProduct = createAsyncThunk(
     "updateProduct",
-    async (product: ProductUpdate) => {
+    async (product: ProductUpdate, { getState }) => {
         try {
-            const response = await axios.put<Product>(`${BASE_URL}/products/${product.id}`, product)
+            const state = getState() as RootState;
+            const token = state.users.currentUser?.token;
+            const response = await axios.put<Product>(`${BASE_URL}/products/${product.id}`, product, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
             return response.data
         }
         catch (e) {
@@ -111,11 +117,17 @@ export const updateExistingProduct = createAsyncThunk(
     }
 )
 
-export const deleteAProduct = createAsyncThunk(
+export const deleteProduct = createAsyncThunk(
     "deleteProduct",
-    async (productId: number) => {
+    async (productId: string, { getState }) => {
         try {
-            const response = await axios.delete<Boolean>(`${BASE_URL}/products/${productId}`)
+            const state = getState() as RootState;
+            const token = state.users.currentUser?.token;
+            const response = await axios.delete<Boolean>(`${BASE_URL}/products/${productId}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
             return response.data
         }
         catch (e) {
@@ -173,11 +185,11 @@ const productsSlice = createSlice({
                 state.error = action.payload as string
                 state.loading = false
             })
-            .addCase(addNewProduct.pending, (state) => {
+            .addCase(createProduct.pending, (state) => {
                 state.loading = true
-                state.error = ""
+                state.error = null
             })
-            .addCase(addNewProduct.fulfilled, (state, action) => {
+            .addCase(createProduct.fulfilled, (state, action) => {
                 state.loading = false
                 if (typeof action.payload === "string") {
                     state.error = action.payload
@@ -187,14 +199,15 @@ const productsSlice = createSlice({
                     state.products.push(action.payload)
                 }
             })
-            .addCase(addNewProduct.rejected, (state) => {
-                state.error = "Error adding new product"
+            .addCase(createProduct.rejected, (state, action) => {
+                state.error = action.error.message as string
                 state.loading = false
             })
-            .addCase(updateExistingProduct.pending, (state) => {
+            .addCase(updateProduct.pending, (state) => {
                 state.loading = true
+                state.error = null;
             })
-            .addCase(updateExistingProduct.fulfilled, (state, action) => {
+            .addCase(updateProduct.fulfilled, (state, action) => {
                 state.loading = false
                 if (typeof action.payload === "string") {
                     state.error = action.payload
@@ -206,23 +219,26 @@ const productsSlice = createSlice({
                     }
                 }
             })
-            .addCase(updateExistingProduct.rejected, (state) => {
-                state.error = "Error updating product"
+            .addCase(updateProduct.rejected, (state, action) => {
+                state.error = action.error.message as string
                 state.loading = false
             })
-            .addCase(deleteAProduct.rejected, (state) => {
-                state.loading = true
+            .addCase(deleteProduct.pending, (state) => {
+                state.loading = false
+                state.error = null
             })
-            // .addCase(deleteAProduct.fulfilled, (state, action) => {
-            //     state.loading = false
-            //     const productId = action.meta.arg
-            //     state.products = state.products.filter((product) => product.id !== productId)
-                
-            // })
+            .addCase(deleteProduct.rejected, (state, action) => {
+                state.loading = true
+                state.error = action.error.message as string
+            })
+            .addCase(deleteProduct.fulfilled, (state, action) => {
+                state.loading = false
+                const productId = action.meta.arg
+                state.products = state.products.filter((product) => product.id !== productId)
+            })
+            
     }
 })
 
 const productsReducer = productsSlice.reducer
-// export const { cleanUpProductReducer, sortProductByPrice, sortProductByCategory, sortProductByName } = productsSlice.actions
-// export const { sortProductsByPriceAsc, sortProductsByPriceDesc, sortProductsByNameAsc, sortProductsByNameDesc } = productsSlice.actions
 export default productsReducer
