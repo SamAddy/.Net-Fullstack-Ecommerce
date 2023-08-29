@@ -19,14 +19,14 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ReadProductDto>> GetAllProducts([FromQuery] QueryOptions queryOptions)
+        public async Task<ActionResult<ReadProductDto>> GetAllProductsAsync([FromQuery] QueryOptions queryOptions)
         {
             var products = await _productService.GetAllProductsAsync(queryOptions);
             return Ok(products);
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<ReadProductDto>> GetProductById(Guid id)
+        public async Task<ActionResult<ReadProductDto>> GetProductByIdAsync(Guid id)
         {
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
@@ -40,7 +40,7 @@ namespace EcommerceBackend.Application.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ReadProductDto>> CreatProduct([FromBody] CreateProductDto product)
+        public async Task<ActionResult<ReadProductDto>> CreatProductAsync([FromBody] CreateProductDto product)
         {
             if (!ModelState.IsValid)
             {
@@ -52,7 +52,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpPut("{id:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ReadProductDto>> UpdateProduct(Guid id, [FromBody] UpdateProductDto productDto)
+        public async Task<ActionResult<ReadProductDto>> UpdateProductAsync(Guid id, [FromBody] UpdateProductDto productDto)
         {
             var product = await _productService.UpdateProductAsync(id, productDto);
             return Ok(product);
@@ -60,7 +60,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<bool>> DeleteProductById(Guid id)
+        public async Task<ActionResult<bool>> DeleteProductByIdAsync(Guid id)
         {
             var result = await _productService.DeleteProductByIdAsync(id);
             if (!result)

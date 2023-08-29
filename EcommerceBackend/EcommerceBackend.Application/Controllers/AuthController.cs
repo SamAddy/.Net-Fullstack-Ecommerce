@@ -20,21 +20,21 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> AuthenticateUser([FromBody] UserCredentialsDto userCredentials)
+        public async Task<ActionResult<string>> AuthenticateUserAsync([FromBody] UserCredentialsDto userCredentials)
         {
             return Ok(await _authService.AutheticateUser(userCredentials));
         }
 
         [HttpPost("token")]
         [Authorize]
-        public async Task<ActionResult<string>> RefreshToken([FromBody] string token)
+        public async Task<ActionResult<string>> RefreshTokenAsync([FromBody] string token)
         {
             return Ok(await _authService.RefreshToken(token));
         }
 
         [HttpGet("profile")]
         [Authorize]
-        public async Task<ActionResult<ReadUserDto>> GetUserProfile()
+        public async Task<ActionResult<ReadUserDto>> GetUserProfileAsync()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 

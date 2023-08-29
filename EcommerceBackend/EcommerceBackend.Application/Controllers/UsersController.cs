@@ -24,14 +24,14 @@ namespace EcommerceBackend.Application.Controllers
         
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<ReadUserDto>>> GetAllUsers([FromQuery] QueryOptions queryOptions)
+        public async Task<ActionResult<IEnumerable<ReadUserDto>>> GetAllUsersAsync([FromQuery] QueryOptions queryOptions)
         {
             var users = await _userService.GetAllUsersAsync(queryOptions);
             return Ok(users);
         }
 
         [HttpPost]
-         public async Task<ActionResult<ReadUserDto>> CreateUser([FromBody] CreateUserDto createUserDto)
+         public async Task<ActionResult<ReadUserDto>> CreateUserAsync([FromBody] CreateUserDto createUserDto)
         {
             if (!ModelState.IsValid)
             {
@@ -43,7 +43,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpGet("{id:Guid}")]
         [Authorize]
-        public async Task<ActionResult<ReadUserDto>> GetUserById(Guid id)
+        public async Task<ActionResult<ReadUserDto>> GetUserByIdAsync(Guid id)
         {
             var requestingUserId = User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -66,7 +66,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpGet("Email/{email}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ReadUserDto>> GetUserByEmail(string email)
+        public async Task<ActionResult<ReadUserDto>> GetUserByEmailAsync(string email)
         {
             var user = await _userService.GetUserByEmailAsync(email);
             if (user == null)
@@ -78,7 +78,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize]
-        public async Task<ActionResult<bool>> DeleteUser(Guid id)
+        public async Task<ActionResult<bool>> DeleteUserAsync(Guid id)
         {
             var requestingUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -101,7 +101,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpPut("{id:Guid}")]
         [Authorize]
-        public async Task<ActionResult<ReadUserDto>> UpdateUser(Guid id, [FromBody]UpdateUserDto userDto)
+        public async Task<ActionResult<ReadUserDto>> UpdateUserAsync(Guid id, [FromBody]UpdateUserDto userDto)
         {
             var requestUserIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             if (requestUserIdClaim == null || !Guid.TryParse(requestUserIdClaim.Value, out var UpdateRequestingUserId))
@@ -124,7 +124,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("Admin/")]
-        public async Task<ActionResult<ReadUserDto>> CreateAdmin([FromBody]CreateUserDto userDto)
+        public async Task<ActionResult<ReadUserDto>> CreateAdminAsync([FromBody]CreateUserDto userDto)
         {
             var adminUser = await _userService.CreateAdminAsync(userDto);
             return Ok(adminUser);

@@ -19,7 +19,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ReadOrderDto>> GetAllOrders()
+        public async Task<ActionResult<ReadOrderDto>> GetAllOrdersAsync()
         {
             var orders = await _ordersService.GetOrdersWithDetailsdAsync();
             return Ok(orders);
@@ -27,7 +27,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpPost("Users/{userId:Guid}/Orders")]
         [Authorize(Policy = "ProfileOwnerOnly")]
-        public async Task<ActionResult<ReadOrderDto>> CreateOrder(Guid userId, [FromBody] CreateOrderDto orderDto)
+        public async Task<ActionResult<ReadOrderDto>> CreateOrderAsync(Guid userId, [FromBody] CreateOrderDto orderDto)
         {
             var newOrder = await _ordersService.CreateOrderAsync(userId, orderDto);
             return Ok(newOrder);
@@ -35,7 +35,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpGet("{id:Guid}")]
         [Authorize(Policy = "AdminOrProfileOwner")]
-        public async Task<ActionResult<ReadOrderDto>> GetOrderById(Guid id)
+        public async Task<ActionResult<ReadOrderDto>> GetOrderByIdAsync(Guid id)
         {
             var order = await _ordersService.GetOrderByIdAsync(id);
             return Ok(order);
@@ -43,7 +43,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize(Policy = "ProfileOwnerOnly")]
-        public async Task<ActionResult<bool>> DeleteOrder(Guid id)
+        public async Task<ActionResult<bool>> DeleteOrderAsync(Guid id)
         {
             return Ok(await _ordersService.DeleteOrderByIdAsync(id));
         }

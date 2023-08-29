@@ -20,7 +20,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ReadCategoryDto>> GetAllCategories([FromQuery]QueryOptions queryOptions)
+        public async Task<ActionResult<ReadCategoryDto>> GetAllCategoriesAsync([FromQuery]QueryOptions queryOptions)
         {
             var categories = await _categoryService.GetAllCategoriesAsync(queryOptions);
             return Ok(categories);
@@ -28,7 +28,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ReadCategoryDto>> CreateCategory([FromBody] CreateCategoryDto categoryDto)
+        public async Task<ActionResult<ReadCategoryDto>> CreateCategoryAsync([FromBody] CreateCategoryDto categoryDto)
         {
             var category = await _categoryService.CreateCategoryAsync(categoryDto);
             return Ok(category);
@@ -37,7 +37,7 @@ namespace EcommerceBackend.Application.Controllers
         [HttpGet("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ReadCategoryDto>> GetCategoryById(Guid id)
+        public async Task<ActionResult<ReadCategoryDto>> GetCategoryByIdAsync(Guid id)
         {
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
@@ -49,7 +49,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpPut("{id:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<ReadCategoryDto>> UpdateCategory(Guid id, [FromBody] UpdateCategoryDto categoryDto)
+        public async Task<ActionResult<ReadCategoryDto>> UpdateCategoryAsync(Guid id, [FromBody] UpdateCategoryDto categoryDto)
         {
             var category = await _categoryService.UpdateCategoryAsync(id, categoryDto);
             return Ok(category);
@@ -57,7 +57,7 @@ namespace EcommerceBackend.Application.Controllers
 
         [HttpDelete("{id:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<bool>> DeleteCategory(Guid id)
+        public async Task<ActionResult<bool>> DeleteCategoryAsync(Guid id)
         {
             var result = await _categoryService.DeleteCategoryAsync(id);
             if (!result)
@@ -69,7 +69,7 @@ namespace EcommerceBackend.Application.Controllers
         }
 
         [HttpGet("{id:Guid}/products")]
-        public async Task<ActionResult<ReadProductDto>> GetAllProductInCategory(Guid id)
+        public async Task<ActionResult<ReadProductDto>> GetAllProductInCategoryAsync(Guid id)
         {
             var products = await _categoryService.GetAllProductsInCategoryAsync(id);
             return Ok(products);
