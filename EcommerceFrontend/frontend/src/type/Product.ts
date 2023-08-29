@@ -11,10 +11,10 @@ export interface Product {
 }
 
 export interface ProductState {
-    products: Product[],
-    loading: boolean,
+    products: Product[]
+    loading: boolean
     error: string | null
-    // showAdminButtons: boolean
+    singleProduct: Product | null
 }
 
 export interface CreateProduct {
@@ -56,4 +56,10 @@ export interface EditProductModalProps {
     product: Product;
     onClose: () => void;
     onSubmit: (updatedProduct: Product) => void;
+}
+
+export interface fetchSingleProductProps {
+    loading: boolean
+    error: string | null
+    product: Product | null
 }

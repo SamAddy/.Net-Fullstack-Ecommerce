@@ -8,6 +8,7 @@ const initialState: ProductState = {
     products: [],
     loading: false,
     error: null,
+    singleProduct: null
 }
 
 export const fetchAllProducts = createAsyncThunk(
@@ -29,7 +30,6 @@ export const fetchAllProducts = createAsyncThunk(
                   PageSize: pageSize,
                 },
               });
-            console.log("products: ", response.data)
             return response.data
         }
         catch (e) {
@@ -156,20 +156,21 @@ const productsSlice = createSlice({
             })
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
                 state.loading = false
-                if (typeof action.payload === "string") {
-                    state.error = action.payload
-                }
-                else {
-                    state.products = action.payload
-                }
+                // if (typeof action.payload === "string") {
+                //     state.error = action.payload
+                // }
+                // else {
+                //     state.products = action.payload
+                // }
+                state.products = action.payload as Product[]
             })
-            .addCase(fetchAllProducts.rejected, (state) => {
+            .addCase(fetchAllProducts.rejected, (state, action) => {
                 state.loading = false
-                state.error = "Error fetching products. Please try again later."
+                state.error = action.error.message as string
             })
             .addCase(fetchSingleProduct.pending, (state) => {
                 state.loading = true
-                state.error = ""
+                state.error = null
             })
             .addCase(fetchSingleProduct.fulfilled, (state, action) => {
                 state.loading = false
@@ -177,9 +178,9 @@ const productsSlice = createSlice({
                 if (typeof action.payload === "string") {
                     state.error = action.payload
                 }
-                // else {
-                //     state.singleProduct = action.payload
-                // }
+                else {
+                    state.singleProduct = action.payload
+                }
             })
             .addCase(fetchSingleProduct.rejected, (state, action) => {
                 state.error = action.payload as string
@@ -195,7 +196,7 @@ const productsSlice = createSlice({
                     state.error = action.payload
                 }
                 else {
-                    console.log(action.payload)
+                    
                     state.products.push(action.payload)
                 }
             })

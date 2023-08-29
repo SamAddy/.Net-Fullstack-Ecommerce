@@ -29,14 +29,13 @@ export const fetchAllCategories = createAsyncThunk(
             PageSize: pageSize,
           },
         });
-        console.log("Categories: " + response.data);
         return response.data;
       } catch (e) {
         const error = e as AxiosError;
         if (error.response) {
-          throw new Error(JSON.stringify(error.response.data));
+          return JSON.stringify(error.response.data);
         }
-        throw new Error(error.message);
+        return error.message;
       }
     }
   );
@@ -131,7 +130,7 @@ export const fetchAllCategories = createAsyncThunk(
         })
         .addCase(fetchAllCategories.fulfilled, (state, action) => {
           state.loading = false;
-          state.categories = action.payload;
+          state.categories = action.payload as Category[];
         })
         .addCase(fetchAllCategories.rejected, (state, action) => {
           state.loading = false;
