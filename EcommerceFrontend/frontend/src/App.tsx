@@ -11,6 +11,7 @@ import ProfilePage from './pages/ProfilePage';
 import ProductsDisplay from './components/ProductsDisplay';
 import AdminPage from './pages/AdminPage';
 import TestProducts from './components/TestProducts';
+import ProductPage from './pages/ProductPage';
 
 const App = () => { 
   return (
@@ -23,8 +24,11 @@ const App = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/products" element={<ProductsDisplay />} />
+        <Route path="/products/:id" element={<ProductPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/testProducts" element={<TestProducts />} />
+        <Route path="/testProducts/:id" element={<ProductPage />} />
+        {/* <Route path="/testProducts/:id" element={<TestComponents />} /> */}
       </Routes>
     </Router>
   );
