@@ -12,7 +12,8 @@ namespace EcommerceBackend.Framework.src.Database
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders{ get; set; }
 
-        public ApplicationDbContext(IConfiguration configuration)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
+        : base(options)
         {
             _configuration = configuration;
         }
@@ -25,7 +26,7 @@ namespace EcommerceBackend.Framework.src.Database
     
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
+            var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("ElephantSQL"));
             builder.MapEnum<UserRole>();
             builder.MapEnum<OrderStatus>();
             optionsBuilder.AddInterceptors(new TimeStampInterceptor());
