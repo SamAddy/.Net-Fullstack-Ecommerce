@@ -1,4 +1,4 @@
-# Fullstack Project
+# .Net Fullstack Ecommerce
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
 ![SASS](https://img.shields.io/badge/SASS-v.4-hotpink)
@@ -8,88 +8,61 @@
 ![EF Core](https://img.shields.io/badge/EF%20Core-v.7-cyan)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v.14-drakblue)
 
-This project involves creating a Fullstack project with React and Redux on the frontend and ASP.NET Core 7 on the backend. The goal is to provide a seamless experience for users, along with robust management system for administrators.
-
-- Frontend: SASS, TypeScript, React, Redux Toolkit
-- Backend: ASP .NET Core, Entity Framework Core, PostgreSQL
-
-You can follow the same topics as your backend project or choose the alternative one, between E-commerce and Library. You can reuse the previous frontend project, with necessary modification, or make a new layout to fit your backend server.
+This project is a .NET Fullstack E-commerce web application that aims to deliver a seamless and feature-rich user experience while providing administrators with a robust management system. It combines the strengths of modern web technologies, including TypeScript, SASS, React, and Redux Toolkit on the frontend, with the power of ASP.NET Core 7 on the backend. The project follows Clean Architecture principles for clean, maintainable, and scalable code and includes thorough unit testing for reliability.
 
 ## Table of Contents
 
-1. [Features](#features)
-   - [Mandatory features](#mandatory-features)
-   - [Extra features](#extra-features)
-2. [Requirements](#requirements)
-3. [Getting Started](#getting-started)
-4. [Testing](#testing)
+- [Features](#features)
+   - [User features](#user-features)
+   - [Admin features](#admin-features)
+- [Technologies Used](#technologies-used)
+- [Deployments](#deployments--links)
 
 ## Features
 
-### Mandatory features
+### User Features
 
-#### User Functionalities
+- **User Authentication and Authorization**: Secure user accounts with registration, login, and role-based access control.
+- **User Management**: User is able to view and edit certain properties in their account. They also can unregister their own accounts.
+- **Product Catalog**: Organize products into categories for easy browsing. User is also able to view a single product.
+- **Search and sorting Functionality**: search and sorting features for users to find products efficiently.
+- **Checkout**: Enable users to add items to their cart.
 
-1. User Management: Users should be able to register for an account and log in. Users cannot register themselves as admin.
-2. Browse Products: Users should be able to view all available products and single product, search and sort products.
-3. Add to Cart: Users should be able to add products to a shopping cart, and manage cart.
-4. Checkout: Users should be able to place order.
+### Admin Features
 
-#### Admin Functionalities
+- **Admin Panel**: Provide an administrative interface for managing products, categories, and user accounts.
 
-1. User Management: Admins should be able to view and delete users.
-2. Product Management: Admins should be able to view, edit, delete and add new products.
-3. Order Management: Admins should be able to view all orders
+### Incoming Features
+- **Payment**: Enable user to make payment for their order.
+- **Google Oauth**: Authentication and account registration with Google Oauth.
+- **Order Management**: User will be able to view their order history, track the status of their orders, and potentially cancel orders within a certain timeframe.
 
-### Extra features
+## Technologies Used
+- **Architecture**: Clean Architecture
 
-#### User Functionalities
+- **Backend**: ASP.NET Core, C#, Entity Framework Core
 
-1. User Management: Users should be able to view and edit only certain properties in their accounts. They also can unregister their own accounts.
-2. Authentication and account registration with Google Oauth.
-3. Order Management: Users should be able to view their order history, track the status of their orders, and potentially cancel orders within a certain timeframe.
+- **Frontend**: Redux, React, Typescript, MUI, SASS
 
-#### Admin Functionalities
+- **Database**: PostgreSQL, Azure Database for Postgres, ElephantSQL
 
-1. User Management: Admins should be able to edit users' role and create new users.
-2. Order Management: Admins should be able to update order status, view order details, handle returns/refunds, and cancel orders.
+- **Authentication**: JWT (JSON Web Tokens)
 
-And any other extra features that you want to implement ...
+- **Cloud Hosting**: Microsoft Azure, Netlify
 
-## Requirements
+- **API Documentation**: Swagger
 
-1. Apply CLEAN architecture in your backend. In README file, explain the architecture of your project as well.
-2. Implement Error Handling Middleware: This will ensure any exceptions thrown in your application are handled appropriately and helpful error messages are returned.
-3. Document with Swagger: Make sure to annotate your API endpoints and generate a Swagger UI for easier testing and documentation.
-4. Project should have proper file structure, naming convention, and comply with Rest API.
-5. `README` file should sufficiently describe the project, as well as the deployment.
+- **Version Control**: Git
 
-## Getting Started
+## Deployments & Links
 
-1. Your full stack project should have one git repo to manage both frontend and backend. The shared .git in the root directory is used to push commits to the remote repo. In case you need to deploy frontend and backend to different server, you can inittiate another `.git` folder in each repository. Syntax: `cd frontend` -> `git init` (similar to backend folder). Remember to add `.gitignore` for each folder when you intiate `git` repo.
-2. `frontend` folder is for the react frontend. Start with `backend` first before moving to `frontend`.
-3. In the `backend`, here is the recommended order:
+- **Backend**: [https://shop-waves-backend.azurewebsites.net/api/v1](https://shop-waves-backend.azurewebsites.net/api/v1)
 
-   - Plan Your Database Schema before start coding
+- **Swagger Documentation**: [https://shop-waves-backend.azurewebsites.net/swagger/index.html](https://shop-waves-backend.azurewebsites.net/swagger/index.html)
 
-   - Set Up the Project Structure
+- **Frontend**: [https://shop-waves.netlify.app](https://shop-waves.netlify.app)
 
-   - Build the models
+- **Architecture view on Lucid**: [https://lucid.app/lucidspark/3a3f5f31-034b-48b3-94f8-a7d5beb14f95/edit?view_items=d86l7qllE-7y%2CmH.hkh3ATEvX&invitationId=inv_bda4c721-fde1-4c71-a115-3146fcbd59f1](https://lucid.app/lucidspark/3a3f5f31-034b-48b3-94f8-a7d5beb14f95/edit?view_items=d86l7qllE-7y%2CmH.hkh3ATEvX&invitationId=inv_bda4c721-fde1-4c71-a115-3146fcbd59f1)
 
-   - Create the Repositories
 
-   - Build the Services
-
-   - Set Up Authentication & Authorization
-
-   - Build the Controllers
-
-   - Implement Error Handling Middleware
-
-4. You should focus on the mandatory features first. Make sure you have minimal working project before opting for advanced functionalities.
-
-Testing should be done along the development circle, early and regularly.
-
-## Testing
-
-Unit testing, and optionally integration testing, must be included for both frontend and backend code. Aim for high test coverage and ensure all major functionalities are covered.
+**Note:** This project is under active development, and new features and improvements are being added regularly. I appreciate your interest and encourage you to check back for updates.
