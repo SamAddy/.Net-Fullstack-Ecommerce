@@ -16,7 +16,7 @@ This project is a .NET Fullstack E-commerce web application that aims to deliver
    - [User features](#user-features)
    - [Admin features](#admin-features)
 - [Technologies Used](#technologies-used)
-- [Deployments](#deployments--links)
+- [Deployment](#deployment--links)
 
 ## Features
 
@@ -54,7 +54,7 @@ This project is a .NET Fullstack E-commerce web application that aims to deliver
 
 - **Version Control**: Git
 
-## Deployments & Links
+## Deployment & Links
 
 - **Backend**: [https://shop-waves-backend.azurewebsites.net/api/v1](https://shop-waves-backend.azurewebsites.net/api/v1)
 
