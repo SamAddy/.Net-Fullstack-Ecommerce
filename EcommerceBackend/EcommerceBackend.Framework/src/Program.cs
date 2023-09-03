@@ -9,7 +9,6 @@ using EcommerceBackend.Framework.src.Middlewares;
 using EcommerceBackend.Framework.src.Repositories;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,7 +47,7 @@ builder.Services.AddScoped<ErrorHandlerMiddleware>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop-Goodies-API", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop-Waves-API", Version = "v1" });
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Description = "Bearer token authentication",
@@ -76,10 +75,15 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(options => 
 {
-    options.AddPolicy("AllowReactApp",
-    builder => 
+    options.AddDefaultPolicy(builder => 
     {
         builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        builder.WithOrigins("https://shop-waves.netlify.app")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        builder.WithOrigins("https://*.shop-waves.netlify.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
     });
@@ -92,9 +96,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseDeveloperExceptionPage();
 app.UseSwagger();
-app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop-Goodies-API v1"); });
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop-Waves-API v1"); });
 
-app.UseCors("AllowReactApp");
+app.UseCors();
 
 app.UseMiddleware<LoggingMiddleWare>();
 
