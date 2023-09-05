@@ -9,6 +9,7 @@ namespace EcommerceBackend.Business.src.Dtos.Product
         public decimal Price { get; set; }
         public required string Description { get; set; }
         public string ImageUrl { get; set; }
+        public decimal Inventory { get; set; }
         public  ReadCategoryDto Category { get; set; }
     }
 }
