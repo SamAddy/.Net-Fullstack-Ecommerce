@@ -37,7 +37,7 @@ const Header = () => {
   };
 
   const handleSigin = () => {
-    navigate("/sigin");
+    navigate("/signin");
   };
   
   const handleProfile = () => {
@@ -117,10 +117,14 @@ const Header = () => {
               )}
             </>
           ) : (
-            <IconButton color="inherit">
-              <Link to={"/signin"}>
+            <IconButton 
+              color="inherit"
+              onClick={handleSigin}
+            >
+              {/* <Link to={"/signin"}>
                 <Person />
-              </Link>
+              </Link> */}
+              <Person />
             </IconButton>
           )}
           <IconButton color="inherit">
