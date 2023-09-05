@@ -29,8 +29,8 @@ export interface CreateProduct {
 export interface UpdateProduct {
     id: string
     name: string
-    description: string 
     price: number
+    description: string 
     categoryId: string
     inventory: number
     imageUrl: string
@@ -53,13 +53,17 @@ export interface FileUploadResponse {
 
 export interface EditProductModalProps {
     open: boolean;
-    product: Product;
+    product: UpdateProduct;
     onClose: () => void;
-    onSubmit: (updatedProduct: Product) => void;
+    onSubmit: (updatedProduct: UpdateProduct) => void;
 }
 
 export interface fetchSingleProductProps {
     loading: boolean
     error: string | null
     product: Product | null
+}
+
+export interface FavoriteButtonProps {
+    favProduct: Product;
 }

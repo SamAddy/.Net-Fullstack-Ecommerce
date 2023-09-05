@@ -5,7 +5,6 @@ import useCustomSelector from "../hooks/useCustomSelector";
 import { fetchSingleProduct } from "../redux/reducers/productsReducer";
 import ProductDisplay from "../components/ProductDisplay";
 import Header from "../components/Header";
-import { CircularProgress } from "@mui/material";
 
 const ProductPage = () => {
   const dispatch = useAppDispatch();

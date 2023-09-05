@@ -1,23 +1,53 @@
 import React, { useEffect, useState } from 'react'
 import ManageLoading from './ManageLoading'
-import { ProductState } from '../type/Product'
+import { Product, ProductState, UpdateProduct } from '../type/Product'
 import useAppDispatch from '../hooks/useAppDispatch'
-import FavoriteBorderSharpIcon from "@mui/icons-material/FavoriteBorderSharp";
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { AddShoppingCart, Delete, Edit } from '@mui/icons-material'
 import BoldIconButton from '../styles/Component/BoldIconButton'
 import useCustomSelector from '../hooks/useCustomSelector';
 import { Link } from 'react-router-dom';
+import { deleteProduct, updateProduct } from '../redux/reducers/productsReducer';
+import EditProductModal from './EditProductModal';
+import FavoriteButton from './FavoriteButton';
 
 const Products = ({ products, loading, error }: ProductState) => {
+    const dispatch = useAppDispatch();
     const currentUser = useCustomSelector((state) => state.users.currentUser);
     const [ showAdminButtons, setShowAdminButtons ] = useState(false);
 
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<UpdateProduct | null>(
+      null
+    );
     useEffect(() => {
       if (currentUser?.role.toLowerCase() === "admin") {
         setShowAdminButtons(true);
       } 
     }, [currentUser])
+
+    const handleDelete = (producdId: string) => {
+      dispatch(deleteProduct(producdId));
+    }
+
+    const handleUpdateProduct = (updatedProduct: UpdateProduct) => {
+      dispatch(updateProduct(updatedProduct))
+    }
+
+    const handleEditProduct = (product: Product) => {
+      const categoryId = product.category.id;
+      const updatedProduct: UpdateProduct = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        categoryId: categoryId,
+        inventory: product.inventory,
+        imageUrl: product.imageUrl,
+      };
+      setSelectedProduct(updatedProduct);
+      setIsEditModalOpen(true);
+    }
   return (
     <>
     <ManageLoading loading={loading} error={error} data={products} >
@@ -26,10 +56,10 @@ const Products = ({ products, loading, error }: ProductState) => {
               <Grid
             container
             direction="row"
-            justifyContent="start"
+            justifyContent="flex-start"
             alignItems="stretch"
             spacing={3}
-            marginTop={4}
+            padding={7}
             >
                 {loadedProducts?.length > 0 && loadedProducts.map((product) => (
                     <Grid item key={product.id} xs={8} sm={4} md={4} lg={2}>
@@ -64,20 +94,29 @@ const Products = ({ products, loading, error }: ProductState) => {
                         
                         {showAdminButtons ? (
                           <>
-                            <BoldIconButton aria-label="delete product" bold>
+                            <BoldIconButton 
+                              aria-label="delete product" 
+                              bold
+                              onClick={() => handleDelete(product.id)}
+                            >
                               <Delete />
                             </BoldIconButton>
-                            <Typography>
+                            <Typography fontSize='1.5rem'>
                               &euro;{product.price}
                             </Typography>
-                            <BoldIconButton aria-label="edit product" bold>
+                            <BoldIconButton 
+                              aria-label="edit product" 
+                              bold
+                              onClick={() => handleEditProduct(product)}
+                            >
                               <Edit/>
                             </BoldIconButton>
                           </>
                         ) : (
                           <>
                             <BoldIconButton aria-label="add to favorites" bold>
-                              <FavoriteBorderSharpIcon />
+                              {/* <FavoriteBorderSharpIcon /> */}
+                              <FavoriteButton favProduct={product} />
                             </BoldIconButton>
                             <Typography>
                               &euro;{product.price}
@@ -95,6 +134,14 @@ const Products = ({ products, loading, error }: ProductState) => {
             </>
         )}
     </ManageLoading>
+    {isEditModalOpen && (
+      <EditProductModal 
+        open={isEditModalOpen} 
+        product={selectedProduct || { id: "", name: "", price: 0, description: "", categoryId: "", inventory: 0, imageUrl: ""}} 
+        onClose={() => setIsEditModalOpen(false)} 
+        onSubmit={handleUpdateProduct} 
+      />
+    )}
     </>
   )
 }

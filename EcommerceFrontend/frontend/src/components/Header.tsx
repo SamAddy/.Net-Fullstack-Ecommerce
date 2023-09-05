@@ -6,6 +6,7 @@ import {
 } from "@mui/icons-material";
 import {
   AppBar,
+  Badge,
   Box,
   IconButton,
   InputBase,
@@ -23,6 +24,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const currentUser = useCustomSelector((state) => state.users.currentUser);
+  const favItemsCount = useCustomSelector((state) => state.favorites.length)
   const [profileMenuAnchor, setProfileMenuAnchor] =
     React.useState<null | HTMLElement>(null);
 
@@ -34,6 +36,10 @@ const Header = () => {
     setProfileMenuAnchor(null);
   };
 
+  const handleSigin = () => {
+    navigate("/sigin");
+  };
+  
   const handleProfile = () => {
     navigate("/profile");
   };
@@ -46,6 +52,10 @@ const Header = () => {
     dispatch(logout());
     navigate("/");
   };
+
+  const handleFavorite = () => {
+    navigate("/favorite");
+  }
 
   return (
     <AppBar position="static">
@@ -62,11 +72,13 @@ const Header = () => {
           component="a"
           href="/"
         >
-          SHOP WAVE
+          SHOP WAVES
         </Typography>
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
           <InputBase
             placeholder="Search..."
+            id="search"
+            name="search"
             sx={{
               width: "80%",
               backgroundColor: "white",
@@ -82,7 +94,7 @@ const Header = () => {
               <IconButton color="inherit" onClick={handleProfileMenuOpen}>
                 <Person />
               </IconButton>
-              {currentUser.role.toLowerCase() == "admin" ? (
+              {currentUser.role.toLowerCase() === "admin" ? (
                 <Menu
                   anchorEl={profileMenuAnchor}
                   open={Boolean(profileMenuAnchor)}
@@ -112,10 +124,20 @@ const Header = () => {
             </IconButton>
           )}
           <IconButton color="inherit">
-            <ShoppingCart />
+            <Badge badgeContent={0} color="error">
+              <ShoppingCart />
+            </Badge>
           </IconButton>
-          <IconButton color="inherit">
-            <Favorite />
+          <IconButton 
+            color="inherit"
+            onClick={handleFavorite}
+          >
+            <Badge badgeContent={favItemsCount} color="error">
+              {/* <Link to={"/favorite"}>
+                <Favorite />
+              </Link> */}
+              <Favorite />
+            </Badge>
           </IconButton>
         </div>
       </Toolbar>
