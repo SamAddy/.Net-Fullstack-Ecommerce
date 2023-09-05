@@ -13,9 +13,8 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { UserCredentials } from "../type/User";
 import { login } from "../redux/reducers/usersReducer";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert } from "@mui/material";
 
 
@@ -45,11 +44,6 @@ const SignIn = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
     
     if (email === "" && password === "") {
       return;
@@ -95,6 +89,7 @@ const SignIn = () => {
           )}
           <Box
             component="form"
+            id="signin"
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
@@ -124,7 +119,7 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="primary" id="remember" />}
               label="Remember me"
             />
             <Button

@@ -1,5 +1,5 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CreateProduct, Product, ProductState, ProductUpdate } from "../../type/Product";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CreateProduct, Product, ProductState, ProductUpdate, UpdateProduct } from "../../type/Product";
 import axios, { AxiosError } from "axios";
 import { BASE_URL, FetchAllParams } from "../../type/Shared";
 import { RootState } from "../rootReducer";
@@ -30,6 +30,7 @@ export const fetchAllProducts = createAsyncThunk(
                   PageSize: pageSize,
                 },
               });
+              console.log("products: ", response.data);
             return response.data
         }
         catch (e) {
@@ -96,7 +97,7 @@ export const createProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
     "updateProduct",
-    async (product: ProductUpdate, { getState }) => {
+    async (product: UpdateProduct, { getState }) => {
         try {
             const state = getState() as RootState;
             const token = state.users.currentUser?.token;
@@ -155,14 +156,19 @@ const productsSlice = createSlice({
                 state.loading = true
             })
             .addCase(fetchAllProducts.fulfilled, (state, action) => {
+                console.log("Received payload 1: ", action.payload)
                 state.loading = false
-                // if (typeof action.payload === "string") {
-                //     state.error = action.payload
-                // }
-                // else {
-                //     state.products = action.payload
-                // }
-                state.products = action.payload as Product[]
+                if (typeof action.payload === "string") {
+                    console.log("error payload 2: ", action.payload)
+                    state.error = action.payload
+                    state.products = []
+                }
+                else {
+                    console.log("actual payload 3: ", action.payload)
+                    state.products = action.payload
+                    state.error = null
+                }
+                // state.products = action.payload as Product[]
             })
             .addCase(fetchAllProducts.rejected, (state, action) => {
                 state.loading = false

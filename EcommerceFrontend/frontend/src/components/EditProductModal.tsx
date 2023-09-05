@@ -30,9 +30,9 @@ const EditProductModal = ({ open, product, onClose, onSubmit}: EditProductModalP
         />
         <TextField
           margin="normal"
-          name="description"
-          label="Description"
-          type="number"
+          name="price"
+          label="Price"
+          type="float"
           value={editedProduct.price}
           onChange={handleInputChange}
           fullWidth
@@ -49,14 +49,14 @@ const EditProductModal = ({ open, product, onClose, onSubmit}: EditProductModalP
           margin="normal"
           name="categoryId"
           label="Category Id"
-          value={editedProduct.category}
+          value={editedProduct.categoryId}
           onChange={handleInputChange}
           fullWidth
         />
         <TextField
           margin="normal"
-          name="description"
-          label="Description"
+          name="inventory"
+          label="Inventory"
           type="number"
           value={editedProduct.inventory}
           onChange={handleInputChange}

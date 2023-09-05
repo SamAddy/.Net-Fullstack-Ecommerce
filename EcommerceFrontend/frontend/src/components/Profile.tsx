@@ -91,6 +91,9 @@ const Profile = () => {
         <Typography variant="h5" sx={{ marginBottom: 2 }}>
           Profile
         </Typography>
+        <Typography variant="h4" component="h4" textAlign="center" marginBottom={2}>
+          Hi {currentUser.firstName} &#128075;
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
