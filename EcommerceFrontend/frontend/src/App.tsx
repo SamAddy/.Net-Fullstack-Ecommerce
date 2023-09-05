@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ProductsComponent from './components/ProductsComponent';
+
 import CategoriesComponent from './components/CategoriesComponent';
 import TestComponents from './components/TestComponents';
 import SigninPage from './pages/SignInPage';
@@ -12,6 +11,8 @@ import ProductsDisplay from './components/ProductsDisplay';
 import AdminPage from './pages/AdminPage';
 import TestProducts from './components/TestProducts';
 import ProductPage from './pages/ProductPage';
+import CategoryProducts from './components/CategoryProducts';
+import FavoriteProducts from './components/FavoriteProducts';
 
 const App = () => { 
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/categories" element={<CategoriesComponent />} />
+        <Route path="/categories/:id" element={<CategoryProducts />} />
         <Route path="/test" element={<TestComponents />} />
         <Route path="/signin" element={<SigninPage />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -28,7 +30,8 @@ const App = () => {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/testProducts" element={<TestProducts />} />
         <Route path="/testProducts/:id" element={<ProductPage />} />
-        {/* <Route path="/testProducts/:id" element={<TestComponents />} /> */}
+        <Route path="/testCategories" element={<TestComponents />} />
+        <Route path="/favorite" element={<FavoriteProducts />} />
       </Routes>
     </Router>
   );
