@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import useCustomSelector from "../hooks/useCustomSelector";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { logout } from "../redux/reducers/usersReducer";
 
@@ -25,6 +25,7 @@ const Header = () => {
   const navigate = useNavigate();
   const currentUser = useCustomSelector((state) => state.users.currentUser);
   const favItemsCount = useCustomSelector((state) => state.favorites.length)
+  const cartItemsCount = useCustomSelector((state) => state.cart.items.length);
   const [profileMenuAnchor, setProfileMenuAnchor] =
     React.useState<null | HTMLElement>(null);
 
@@ -55,6 +56,10 @@ const Header = () => {
 
   const handleFavorite = () => {
     navigate("/favorite");
+  }
+
+  const handleCart = () => {
+    navigate("/cart");
   }
 
   return (
@@ -121,14 +126,14 @@ const Header = () => {
               color="inherit"
               onClick={handleSigin}
             >
-              {/* <Link to={"/signin"}>
-                <Person />
-              </Link> */}
               <Person />
             </IconButton>
           )}
-          <IconButton color="inherit">
-            <Badge badgeContent={0} color="error">
+          <IconButton 
+            color="inherit"
+            onClick={handleCart}
+          >
+            <Badge badgeContent={cartItemsCount} color="error">
               <ShoppingCart />
             </Badge>
           </IconButton>
@@ -137,9 +142,6 @@ const Header = () => {
             onClick={handleFavorite}
           >
             <Badge badgeContent={favItemsCount} color="error">
-              {/* <Link to={"/favorite"}>
-                <Favorite />
-              </Link> */}
               <Favorite />
             </Badge>
           </IconButton>
