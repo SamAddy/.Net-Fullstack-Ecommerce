@@ -1,5 +1,6 @@
 using EcommerceBackend.Domain.src.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Npgsql;
 
 namespace EcommerceBackend.Framework.src.Database
@@ -18,11 +19,6 @@ namespace EcommerceBackend.Framework.src.Database
             _configuration = configuration;
         }
 
-        // public ApplicationDbContext(IConfiguration configuration)
-        // {
-        //     _configuration = configuration;
-        // }
-
         static ApplicationDbContext()
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -31,11 +27,11 @@ namespace EcommerceBackend.Framework.src.Database
     
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("DefaultConnection"));
-            builder.MapEnum<UserRole>();
-            builder.MapEnum<OrderStatus>();
-            optionsBuilder.AddInterceptors(new TimeStampInterceptor());
-            optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+            // var builder = new NpgsqlDataSourceBuilder(_configuration.GetConnectionString("TestConnection"));
+            // builder.MapEnum<UserRole>();
+            // builder.MapEnum<OrderStatus>();
+            // optionsBuilder.AddInterceptors(new TimeStampInterceptor());
+            // optionsBuilder.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
         }   
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

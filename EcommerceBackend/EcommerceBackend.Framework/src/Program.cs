@@ -2,18 +2,32 @@ using EcommerceBackend.Business.src.Services.Abstractions;
 using EcommerceBackend.Business.src.Services.Common;
 using EcommerceBackend.Business.src.Services.Implementations;
 using EcommerceBackend.Domain.src.Abstractions;
+using EcommerceBackend.Domain.src.Entities;
 using EcommerceBackend.Framework.src.Authentication;
 using EcommerceBackend.Framework.src.Authentication.OptionsSetup;
 using EcommerceBackend.Framework.src.Database;
 using EcommerceBackend.Framework.src.Middlewares;
 using EcommerceBackend.Framework.src.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>();
+// builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var builder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.ConnectionString);
+    builder.MapEnum<UserRole>();
+    builder.MapEnum<OrderStatus>();
+
+    options.AddInterceptors(new TimeStampInterceptor());
+    options.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+});
 
 builder.Services.AddControllers();
 
