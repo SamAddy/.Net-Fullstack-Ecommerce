@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { Typography } from '@mui/material';
+
 import useAppDispatch from '../hooks/useAppDispatch'
 import useCustomSelector from '../hooks/useCustomSelector';
 import { fetchAllCategories } from '../redux/reducers/categoriesReducer';
-import { Typography } from '@mui/material';
-import ManageLoading from './ManageLoading';
 import CategoryList from './CategoryList';
-import { Category } from '../type/Category';
 
 const CategoriesComponent = () => {
     const dispatch = useAppDispatch();
@@ -26,8 +25,14 @@ const CategoriesComponent = () => {
       }, [dispatch]);
   return (
     <div>
-        <Typography variant='h4'>
-            Featured Categories
+        <Typography variant='h4' 
+          sx = {{ fontWeight: 'bold',
+            textDecoration: 'underline',
+            paddingTop: '2.5em',
+            textAlign: 'center'
+          }}
+        >
+            <span>Feat</span>ured Categories
         </Typography>
         <CategoryList categories={categories} loading={loading} error={error} />
     </div>

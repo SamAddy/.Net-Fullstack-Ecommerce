@@ -63,7 +63,7 @@ const Header = () => {
   }
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" color="primary">
       <Toolbar sx={{ justifyContent: "center" }}>
         <Typography
           variant="h6"
@@ -72,6 +72,8 @@ const Header = () => {
             fontFamily: "cursive",
             fontWeight: "bold",
             fontSize: "2.0rem",
+            textDecoration: 'none',
+            color: 'white'
           }}
           noWrap
           component="a"
