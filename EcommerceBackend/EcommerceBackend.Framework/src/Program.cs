@@ -21,12 +21,16 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
     var builder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));
-    options.UseNpgsql(builder.ConnectionString);
+    options.UseNpgsql(builder.ConnectionString, npgsqlOptions => 
+    {
+        npgsqlOptions.EnableRetryOnFailure();
+    });
     builder.MapEnum<UserRole>();
     builder.MapEnum<OrderStatus>();
 
     options.AddInterceptors(new TimeStampInterceptor());
     options.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+
 });
 
 builder.Services.AddControllers();
