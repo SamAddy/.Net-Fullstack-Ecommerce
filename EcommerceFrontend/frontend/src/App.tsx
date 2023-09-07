@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import CategoriesComponent from './components/CategoriesComponent';
 import TestComponents from './components/TestComponents';
 import SigninPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
@@ -9,29 +8,29 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import ProductsDisplay from './components/ProductsDisplay';
 import AdminPage from './pages/AdminPage';
-import TestProducts from './components/TestProducts';
 import ProductPage from './pages/ProductPage';
 import CategoryProducts from './components/CategoryProducts';
 import FavoriteProducts from './components/FavoriteProducts';
+import ShoppingCart from './components/ShoppingCart';
+import Layout from './components/Layout';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App = () => { 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/categories" element={<CategoriesComponent />} />
+        <Route path="/" element={ <Layout><HomePage /></Layout> } />
         <Route path="/categories/:id" element={<CategoryProducts />} />
+        <Route path="/products" element={ <Layout><ProductsDisplay /></Layout> } />
+        <Route path="/products/:id" element={ <Layout><ProductPage /></Layout> } />
+        <Route path="/signin" element={ <Layout showFooter={false}><SigninPage /></Layout> } />
+        <Route path="/signup" element={ <Layout showFooter={false}><SignUpPage /></Layout> } />
+        <Route path="/profile" element={ <Layout><ProfilePage /></Layout> } />
+        <Route path="/admin" element={ <Layout><AdminPage /></Layout>} />
+        <Route path="/cart" element={ <Layout><ShoppingCart /></Layout> } />
+        <Route path="/favorite" element={ <Layout><FavoriteProducts /></Layout> } />
         <Route path="/test" element={<TestComponents />} />
-        <Route path="/signin" element={<SigninPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/products" element={<ProductsDisplay />} />
-        <Route path="/products/:id" element={<ProductPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/testProducts" element={<TestProducts />} />
-        <Route path="/testProducts/:id" element={<ProductPage />} />
-        <Route path="/testCategories" element={<TestComponents />} />
-        <Route path="/favorite" element={<FavoriteProducts />} />
+        <Route path="*" element={ <Layout><NotFoundPage /></Layout> } />
       </Routes>
     </Router>
   );

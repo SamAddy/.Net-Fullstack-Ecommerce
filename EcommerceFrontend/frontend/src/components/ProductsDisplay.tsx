@@ -3,6 +3,7 @@ import useAppDispatch from '../hooks/useAppDispatch'
 import useCustomSelector from '../hooks/useCustomSelector';
 import { fetchAllProducts } from '../redux/reducers/productsReducer';
 import Products from './Products';
+import { Box, Typography } from '@mui/material';
 
 const ProductsDisplay = () => {
     const dispatch = useAppDispatch();
@@ -22,9 +23,22 @@ const ProductsDisplay = () => {
         )
     }, [dispatch]);
   return (
-    <div>
-        <Products products={products} loading={loading} error={error}  singleProduct={null}/>    
-    </div>
+    <>
+        {products.length === 0 ? (
+            <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="70vh" 
+          >
+            <Typography variant="h4">
+              No products found.
+            </Typography>
+          </Box>
+        ) : (
+            <Products products={products} loading={loading} error={error}  singleProduct={null}/>    
+        )}
+    </>
   )
 }
 

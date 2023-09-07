@@ -1,13 +1,14 @@
 import React from 'react'
-import Header from '../components/Header'
 import CategoriesComponent from '../components/CategoriesComponent'
+import HeroSection from '../components/HeroSection'
+import FeaturedProducts from '../components/FeaturedProducts'
 
 const HomePage = () => {
   return (
     <div>
-        <Header />
-        <h1>You are welcome!</h1>
+        <HeroSection />
         <CategoriesComponent />
+        <FeaturedProducts />
     </div>
   )
 }
