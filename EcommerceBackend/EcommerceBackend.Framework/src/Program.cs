@@ -27,10 +27,8 @@ builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =
     });
     builder.MapEnum<UserRole>();
     builder.MapEnum<OrderStatus>();
-
     options.AddInterceptors(new TimeStampInterceptor());
     options.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
-
 });
 
 builder.Services.AddControllers();
