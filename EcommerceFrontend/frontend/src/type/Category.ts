@@ -11,6 +11,7 @@ export interface CategoryState {
     loading: boolean
     error: string | null
     categoryProducts?: Product[]
+    singleCategory?: Category | null
 }
 
 export interface NewCategory {

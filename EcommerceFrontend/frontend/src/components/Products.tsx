@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Link } from 'react-router-dom';
+import { Delete, Edit } from '@mui/icons-material'
+
 import ManageLoading from './ManageLoading'
 import { Product, ProductState, UpdateProduct } from '../type/Product'
 import useAppDispatch from '../hooks/useAppDispatch'
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import { AddShoppingCart, Delete, Edit } from '@mui/icons-material'
 import BoldIconButton from '../styles/Component/BoldIconButton'
 import useCustomSelector from '../hooks/useCustomSelector';
-import { Link } from 'react-router-dom';
 import { deleteProduct, updateProduct } from '../redux/reducers/productsReducer';
 import EditProductModal from './EditProductModal';
 import FavoriteButton from './FavoriteButton';
+import ShoppingCartButton from './ShoppingCartButton'
 
 const Products = ({ products, loading, error }: ProductState) => {
     const dispatch = useAppDispatch();
@@ -56,7 +58,7 @@ const Products = ({ products, loading, error }: ProductState) => {
               <Grid
             container
             direction="row"
-            justifyContent="flex-start"
+            justifyContent="center"
             alignItems="stretch"
             spacing={3}
             padding={7}
@@ -114,16 +116,11 @@ const Products = ({ products, loading, error }: ProductState) => {
                           </>
                         ) : (
                           <>
-                            <BoldIconButton aria-label="add to favorites" bold>
-                              {/* <FavoriteBorderSharpIcon /> */}
-                              <FavoriteButton favProduct={product} />
-                            </BoldIconButton>
+                            <FavoriteButton favProduct={product} aria-label="add to favorites" />
                             <Typography>
                               &euro;{product.price}
                             </Typography>
-                            <BoldIconButton aria-label="add to cart" bold>
-                              <AddShoppingCart />
-                            </BoldIconButton>
+                            <ShoppingCartButton product={product} />
                           </>
                         )}
                       </CardActions>

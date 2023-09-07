@@ -1,13 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { BASE_URL, FetchAllParams } from "../../type/Shared";
 import axios, { AxiosError } from "axios";
+
+import { BASE_URL, FetchAllParams } from "../../type/Shared";
 import { Category, CategoryState, NewCategory } from "../../type/Category";
 import { RootState } from "../rootReducer";
+import { Product } from "../../type/Product";
 
 const initialState: CategoryState = {
     categories: [],
     loading: false,
     error: null,
+    categoryProducts: [],
+    singleCategory: null
   };
 
 export const fetchAllCategories = createAsyncThunk(
@@ -39,6 +43,38 @@ export const fetchAllCategories = createAsyncThunk(
       }
     }
   );
+
+  export const fetchSingleCategory = createAsyncThunk(
+    "category",
+    async (categoryId: string) => {
+      try {
+        const respone = await axios.get<Category>(`${BASE_URL}/categories/${categoryId}`);
+        return respone.data;
+      } catch (err) {
+        const error = err as AxiosError;
+        if (error.response) {
+          return JSON.stringify(error.response);
+        }
+        return error.message;
+      }
+    }
+  )
+
+  export const fetchProductsByCategory = createAsyncThunk(
+    "category/products",
+    async (categoryId: string) => {
+      try {
+        const respone = await axios.get<Product[]>(`${BASE_URL}/categories/${categoryId}/products`);
+        return respone.data;
+      } catch (err) {
+        const error = err as AxiosError;
+        if (error.response) {
+          return JSON.stringify(error.response.data);
+        }
+        return error.message;
+      }
+    }
+  )
 
   export const createCategory = createAsyncThunk(
     "createCategory",
@@ -130,11 +166,54 @@ export const fetchAllCategories = createAsyncThunk(
         })
         .addCase(fetchAllCategories.fulfilled, (state, action) => {
           state.loading = false;
-          state.categories = action.payload as Category[];
+          state.singleCategory = null;
+          if (typeof action.payload === "string") {
+            state.error = action.payload
+            
+          }
+          else {
+              state.categories = action.payload
+          }
+          // state.categories = action.payload as Category[];
         })
         .addCase(fetchAllCategories.rejected, (state, action) => {
           state.loading = false;
+          state.singleCategory = null;
           state.error = action.error.message as string;
+        })
+        .addCase(fetchSingleCategory.pending, (state) => {
+          state.loading = false;
+          state.error = null;
+        })
+        .addCase(fetchSingleCategory.fulfilled, (state, action) => {
+          state.loading = false;
+          if (typeof action.payload === "string") {
+            state.error = action.payload
+          }
+          else {
+              state.singleCategory = action.payload
+          }
+        })
+        .addCase(fetchSingleCategory.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.error as string;
+        })
+        .addCase(fetchProductsByCategory.pending, (state) => {
+          state.loading = false;
+          state.error = null;
+        })
+        .addCase(fetchProductsByCategory.fulfilled, (state, action) => {
+          state.loading = false
+          if (typeof action.payload === "string") {
+              state.error = action.payload
+          }
+          else {
+              state.categoryProducts = action.payload 
+          }
+        })
+        .addCase(fetchProductsByCategory.rejected, (state, action) => {
+          state.loading = false
+          state.error = action.error.message as string
         })
         .addCase(createCategory.pending, (state) => {
           state.loading = true;

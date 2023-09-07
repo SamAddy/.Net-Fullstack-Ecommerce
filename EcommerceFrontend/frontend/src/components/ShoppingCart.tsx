@@ -17,7 +17,13 @@ const ShoppingCart = () => {
       };
       return (
         <Paper elevation={3} style={{ padding: '16px' }}>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h4" 
+            sx={{
+              fontWeight: "bold",
+              padding: "1.5em",
+              textAlign: "center",
+            }}
+          >
             Shopping Cart
           </Typography>
           <Divider />

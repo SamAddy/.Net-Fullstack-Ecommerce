@@ -3,7 +3,6 @@ import { Order, OrderState } from "../../type/Order";
 import axios, { AxiosError } from "axios";
 import { BASE_URL, FetchAllParams } from "../../type/Shared";
 import { RootState } from "../rootReducer";
-import { fetchAllCategories } from "./categoriesReducer";
 
 const initialState: OrderState = {
     orders: [],

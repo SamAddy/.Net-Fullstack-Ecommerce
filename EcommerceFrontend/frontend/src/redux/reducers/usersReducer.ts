@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios, { Axios, AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 
 import { DeleteUser, NewUser, User, UserCredentials, UserState, UserUpdate } from "../../type/User";
 import { BASE_URL } from "../../type/Shared";
@@ -76,7 +76,6 @@ export const login = createAsyncThunk (
       catch (err) {
         const error = err as AxiosError;
         if (error.response) {
-            console.log("Backend Error Response:", error.response.data);
             return JSON.stringify(error.response.data)
           }
         return error.message;
@@ -199,8 +198,8 @@ const usersSlice = createSlice({
                 state.loading = true
                 state.error = ""
             })
-            .addCase(fetchAllUsers.rejected, (state) => {
-                state.error = "Error fetching users. Please try again."
+            .addCase(fetchAllUsers.rejected, (state, action) => {
+                state.error = action.error.message as string
                 state.loading = false
             })
             .addCase(registerUser.pending, (state) => {
