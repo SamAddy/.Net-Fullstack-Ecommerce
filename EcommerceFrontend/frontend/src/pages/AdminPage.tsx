@@ -1,6 +1,5 @@
 import React from 'react'
-import AdminPanel from '../components/AdminPanel'
-import Header from '../components/Header'
+import AdminPanel from '../components/User/Admin/AdminPanel'
 
 const AdminPage = () => {
   return (

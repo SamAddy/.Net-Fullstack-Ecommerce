@@ -34,7 +34,7 @@ const HeroSection = () => {
       </Typography>
       <Button 
         variant="contained" 
-        color="success"
+        color="primary"
         onClick={handleProducts}
       >
         Explore Products

@@ -3,7 +3,7 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import { useParams } from "react-router-dom";
 import useCustomSelector from "../hooks/useCustomSelector";
 import { fetchSingleProduct } from "../redux/reducers/productsReducer";
-import ProductDisplay from "../components/ProductDisplay";
+import ProductDisplay from "../components/Product/ProductDisplay";
 
 const ProductPage = () => {
   const dispatch = useAppDispatch();
