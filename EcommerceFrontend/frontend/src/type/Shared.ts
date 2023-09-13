@@ -6,5 +6,5 @@ export interface FetchAllParams {
     pageSize: number
   }
   
-  export const BASE_URL = 'https://shop-waves-backend.azurewebsites.net/api/v1'
-  // export const BASE_URL = 'https://localhost:5034/api/v1'
+  // export const BASE_URL = 'https://shop-waves-backend.azurewebsites.net/api/v1'
+  export const BASE_URL = 'http://localhost:5034/api/v1'
