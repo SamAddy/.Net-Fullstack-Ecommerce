@@ -20,15 +20,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var builder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("DefaultConnection"));
+    var builder = new NpgsqlDataSourceBuilder(configuration.GetConnectionString("ElephantSQL"));
     options.UseNpgsql(builder.ConnectionString, npgsqlOptions => 
     {
         npgsqlOptions.EnableRetryOnFailure();
+        // npgsqlOptions.EnableRetryOnFailure(maxRetryCount: 6, maxRetryDelay: TimeSpan.FromSeconds(30), errorCodesToAdd: null);
     });
     builder.MapEnum<UserRole>();
     builder.MapEnum<OrderStatus>();
     options.AddInterceptors(new TimeStampInterceptor());
     options.UseNpgsql(builder.Build()).UseSnakeCaseNamingConvention();
+});
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions => 
+{
+    googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
 });
 
 builder.Services.AddControllers();
